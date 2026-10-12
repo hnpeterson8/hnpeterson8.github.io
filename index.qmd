@@ -1,0 +1,7 @@
+--- 
+title: "Home"
+---
+
+Welcome to my website!
+
+You can learn more about my work on the [Tutorial Blog page](tutorial_blog.qmd)

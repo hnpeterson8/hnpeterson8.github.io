@@ -1,0 +1,16 @@
+project:
+  type: website
+
+website:
+  title: "Hailey Peterson"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: tutorial_blog.qmd
+        text: Tutorial Blog
+
+format:
+  html:
+    theme: cosmo
+    toc: true

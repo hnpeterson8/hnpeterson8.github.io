@@ -23,5 +23,4 @@ format: html
 | Distinct count | `n_distinct(df$col)` | `df['col'].nunique()` | Don't use `.count()` |
 | Frequency table | `count(df, col)` | `df['col'].value_counts()` | Returns counts per unique value |
 
-
 # Conclusion
