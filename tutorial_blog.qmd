@@ -7,10 +7,16 @@ format: html
 # Introduction
 
 # How To
+## Core Differences Between R and Python Syntax
+
+## Worked Example
+
+## Common Syntax Errors
 
 ## Cheat Sheet Guide
-This is where I'll put the table that has the side by side comparisons of functions between R and Python
+| Operation | R (`dplyr`/ Base R) | Python (`pandas`) | Helpful Notes |
+| :--- | :--- | :--- | :--- |
+|Inspect types | `glimpse(df)` / `str(df)`| `df.info()` or `df.dtypes` | `.dtypes` has no parentheses |
 
-# Worked Example
 
 # Conclusion
