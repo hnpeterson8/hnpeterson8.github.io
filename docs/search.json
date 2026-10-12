@@ -18,7 +18,7 @@
     "href": "tutorial_blog.html#worked-example",
     "title": "Tidyverse to Pandas: A How to Guide to Transition from R to Python",
     "section": "Worked Example",
-    "text": "Worked Example"
+    "text": "Worked Example\n\n# loading in data"
   },
   {
     "objectID": "tutorial_blog.html#common-syntax-errors",
@@ -32,6 +32,6 @@
     "href": "tutorial_blog.html#cheat-sheet-guide",
     "title": "Tidyverse to Pandas: A How to Guide to Transition from R to Python",
     "section": "Cheat Sheet Guide",
-    "text": "Cheat Sheet Guide\n\n\n\n\n\n\n\n\n\nOperation\nR (dplyr/ Base R)\nPython (pandas)\nHelpful Notes\n\n\n\n\nInspect types\nglimpse(df) / str(df)\ndf.info() or df.dtypes\n.dtypes has no parentheses\n\n\nSelect columns\nselect(df, a, b)\ndf[['a', 'b']]\nRequires double brackets [[]]\n\n\nFilter Rows\nfilter(df, a &gt; 5 & b &lt; 10)\ndf[(df['a'] &gt; 5) & (df['b'] &lt; 10)]\nMust use & and warp conditions in ()\n\n\nRange filter\nfilter(between(a, 5, 10))\ndf[df['a'].between(5, 10)]\nInclusive on both ends by default\n\n\nDistinct count\nn_distinct(df$col)\ndf['col'].nunique()\nDon’t use .count()\n\n\nFrequency table\ncount(df, col)\ndf['col'].value_counts()\nReturns counts per unique value"
+    "text": "Cheat Sheet Guide\n\n\n\nTable 1: Common functions cheat sheet\n\n\n\n\n\n\n\n\n\n\n\nOperation\nR (dplyr/ Base R)\nPython (pandas)\nHelpful Notes\n\n\n\n\nInspect types\nglimpse(df) / str(df)\ndf.info() or df.dtypes\n.dtypes has no parentheses\n\n\nSelect columns\nselect(df, a, b)\ndf[['a', 'b']]\nRequires double brackets [[]]\n\n\nFilter Rows\nfilter(df, a &gt; 5 & b &lt; 10)\ndf[(df['a'] &gt; 5) & (df['b'] &lt; 10)]\nMust use & and warp conditions in ()\n\n\nRange filter\nfilter(between(a, 5, 10))\ndf[df['a'].between(5, 10)]\nInclusive on both ends by default\n\n\nDistinct count\nn_distinct(df$col)\ndf['col'].nunique()\nDon’t use .count()\n\n\nFrequency table\ncount(df, col)\ndf['col'].value_counts()\nReturns counts per unique value"
   }
 ]

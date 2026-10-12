@@ -10,6 +10,10 @@ format: html
 ## Core Differences Between R and Python Syntax
 
 ## Worked Example
+```{python}
+# loading in data
+
+```
 
 ## Common Syntax Errors
 
@@ -18,9 +22,10 @@ format: html
 | :--- | :---: | :---: | :--- |
 | Inspect types | `glimpse(df)` / `str(df)`| `df.info()` or `df.dtypes` | `.dtypes` has no parentheses |
 | Select columns | `select(df, a, b)` | `df[['a', 'b']]` | Requires double brackets `[[]]` |
-| Filter Rows | `filter(df, a > 5 & b < 10)` | `df[(df['a'] > 5) & (df['b'] < 10)]` | Must use & and warp conditions in () |
+| Filter Rows | `filter(df, a > 5 & b < 10)` | `df[(df['a'] > 5) & (df['b'] < 10)]` | Must use `&` and warp conditions in `()` |
 | Range filter | `filter(between(a, 5, 10))` | `df[df['a'].between(5, 10)]` | Inclusive on both ends by default |
 | Distinct count | `n_distinct(df$col)` | `df['col'].nunique()` | Don't use `.count()` |
 | Frequency table | `count(df, col)` | `df['col'].value_counts()` | Returns counts per unique value |
+: Common functions cheat sheet {#tbl-cheat_sheet}
 
 # Conclusion
