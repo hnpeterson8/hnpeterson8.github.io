@@ -1,0 +1,16 @@
+---
+title: "Tidyverse to Pandas: A How to Guide to Transition from R to Python"
+author: "Hailey Peterson"
+date: last-modified
+format: html
+---
+# Introduction
+
+# How To
+
+## Cheat Sheet Guide
+This is where I'll put the table that has the side by side comparisons of functions between R and Python
+
+# Worked Example
+
+# Conclusion
