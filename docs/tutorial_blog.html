@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Hailey Peterson">
-<meta name="dcterms.date" content="2026-10-12">
+<meta name="dcterms.date" content="2026-10-14">
 
 <title>Tidyverse to Pandas: A How to Guide to Transition from R to Python – Hailey Peterson</title>
 <style>
@@ -66,7 +66,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -110,6 +110,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -189,7 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 12, 2026</p>
+      <p class="date">October 14, 2026</p>
     </div>
   </div>
   
@@ -211,8 +214,412 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="worked-example" class="level2">
 <h2 class="anchored" data-anchor-id="worked-example">Worked Example</h2>
-<div id="29f32bef" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># loading in data</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>To practice the different syntax, we will work through an example using a data set of 2023 college football data. The data can be found in the GitHub repository data folder or on Kaggle at this <a href="https://www.kaggle.com/datasets/jeffgallini/college-football-team-stats-2019?resource=download&amp;select=cfb23.csv">link</a>. Below we simply are loading the data in. We start by importing the pandas package which is equivalent to loading in a library such as <code>tidyverse</code> in R. We then load the data set in using <code>pd.read_csv</code>.</p>
+<div id="b2418c61" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas (equivalent to loading in libraries in R)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># import matplotlib for plotting (like ggplot but isn't included in pandas)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plot</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># loading in data</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/cfb23.csv"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># check the head and tail of the data to make sure it loaded in correctly</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>data.head(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="1">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Unnamed: 0</th>
+<th data-quarto-table-cell-role="th">Off Rank</th>
+<th data-quarto-table-cell-role="th">Team</th>
+<th data-quarto-table-cell-role="th">Games</th>
+<th data-quarto-table-cell-role="th">Win-Loss</th>
+<th data-quarto-table-cell-role="th">Off Plays</th>
+<th data-quarto-table-cell-role="th">Off Yards</th>
+<th data-quarto-table-cell-role="th">Off Yards/Play</th>
+<th data-quarto-table-cell-role="th">Off TDs</th>
+<th data-quarto-table-cell-role="th">Off Yards per Game</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">Average Time of Possession per Game</th>
+<th data-quarto-table-cell-role="th">Turnover Rank</th>
+<th data-quarto-table-cell-role="th">Fumbles Recovered</th>
+<th data-quarto-table-cell-role="th">Opponents Intercepted</th>
+<th data-quarto-table-cell-role="th">Turnovers Gain</th>
+<th data-quarto-table-cell-role="th">Fumbles Lost</th>
+<th data-quarto-table-cell-role="th">Interceptions Thrown_y</th>
+<th data-quarto-table-cell-role="th">Turnovers Lost</th>
+<th data-quarto-table-cell-role="th">Turnover Margin</th>
+<th data-quarto-table-cell-role="th">Avg Turnover Margin per Game</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>0</td>
+<td>1</td>
+<td>LSU (SEC)</td>
+<td>13</td>
+<td>10-3</td>
+<td>841</td>
+<td>7065</td>
+<td>8.40</td>
+<td>78</td>
+<td>543.5</td>
+<td>...</td>
+<td>28:51</td>
+<td>23</td>
+<td>4</td>
+<td>10</td>
+<td>14</td>
+<td>3</td>
+<td>5</td>
+<td>8</td>
+<td>6</td>
+<td>0.46</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>1</td>
+<td>2</td>
+<td>Oregon (Pac-12)</td>
+<td>14</td>
+<td>12-2</td>
+<td>951</td>
+<td>7440</td>
+<td>7.82</td>
+<td>82</td>
+<td>531.4</td>
+<td>...</td>
+<td>31:03</td>
+<td>9</td>
+<td>6</td>
+<td>12</td>
+<td>18</td>
+<td>2</td>
+<td>5</td>
+<td>7</td>
+<td>11</td>
+<td>0.79</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>2</td>
+<td>3</td>
+<td>Oklahoma (Big 12)</td>
+<td>13</td>
+<td>10-3</td>
+<td>974</td>
+<td>6591</td>
+<td>6.77</td>
+<td>66</td>
+<td>507.0</td>
+<td>...</td>
+<td>29:04</td>
+<td>23</td>
+<td>6</td>
+<td>20</td>
+<td>26</td>
+<td>11</td>
+<td>9</td>
+<td>20</td>
+<td>6</td>
+<td>0.46</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>3</td>
+<td>4</td>
+<td>Liberty (CUSA)</td>
+<td>14</td>
+<td>13-1</td>
+<td>973</td>
+<td>6988</td>
+<td>7.18</td>
+<td>71</td>
+<td>499.1</td>
+<td>...</td>
+<td>33:04</td>
+<td>21</td>
+<td>4</td>
+<td>21</td>
+<td>25</td>
+<td>12</td>
+<td>6</td>
+<td>18</td>
+<td>7</td>
+<td>0.50</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>4</td>
+<td>5</td>
+<td>Georgia (SEC)</td>
+<td>14</td>
+<td>13-1</td>
+<td>958</td>
+<td>6951</td>
+<td>7.26</td>
+<td>69</td>
+<td>496.5</td>
+<td>...</td>
+<td>33:28</td>
+<td>43</td>
+<td>3</td>
+<td>14</td>
+<td>17</td>
+<td>7</td>
+<td>7</td>
+<td>14</td>
+<td>3</td>
+<td>0.21</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>5</td>
+<td>6</td>
+<td>North Texas (AAC)</td>
+<td>12</td>
+<td>5-7</td>
+<td>911</td>
+<td>5950</td>
+<td>6.53</td>
+<td>52</td>
+<td>495.8</td>
+<td>...</td>
+<td>29:12</td>
+<td>101</td>
+<td>4</td>
+<td>10</td>
+<td>14</td>
+<td>10</td>
+<td>9</td>
+<td>19</td>
+<td>-5</td>
+<td>-0.42</td>
+</tr>
+</tbody>
+</table>
+
+<p>6 rows × 152 columns</p>
+</div>
+</div>
+</div>
+<div id="a916f0c0" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data.tail(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Unnamed: 0</th>
+<th data-quarto-table-cell-role="th">Off Rank</th>
+<th data-quarto-table-cell-role="th">Team</th>
+<th data-quarto-table-cell-role="th">Games</th>
+<th data-quarto-table-cell-role="th">Win-Loss</th>
+<th data-quarto-table-cell-role="th">Off Plays</th>
+<th data-quarto-table-cell-role="th">Off Yards</th>
+<th data-quarto-table-cell-role="th">Off Yards/Play</th>
+<th data-quarto-table-cell-role="th">Off TDs</th>
+<th data-quarto-table-cell-role="th">Off Yards per Game</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">Average Time of Possession per Game</th>
+<th data-quarto-table-cell-role="th">Turnover Rank</th>
+<th data-quarto-table-cell-role="th">Fumbles Recovered</th>
+<th data-quarto-table-cell-role="th">Opponents Intercepted</th>
+<th data-quarto-table-cell-role="th">Turnovers Gain</th>
+<th data-quarto-table-cell-role="th">Fumbles Lost</th>
+<th data-quarto-table-cell-role="th">Interceptions Thrown_y</th>
+<th data-quarto-table-cell-role="th">Turnovers Lost</th>
+<th data-quarto-table-cell-role="th">Turnover Margin</th>
+<th data-quarto-table-cell-role="th">Avg Turnover Margin per Game</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">128</th>
+<td>128</td>
+<td>129</td>
+<td>Eastern Mich. (MAC)</td>
+<td>13</td>
+<td>6-7</td>
+<td>786</td>
+<td>3416</td>
+<td>4.35</td>
+<td>28</td>
+<td>262.8</td>
+<td>...</td>
+<td>29:02</td>
+<td>61</td>
+<td>11</td>
+<td>8</td>
+<td>19</td>
+<td>6</td>
+<td>12</td>
+<td>18</td>
+<td>1</td>
+<td>0.08</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">129</th>
+<td>129</td>
+<td>130</td>
+<td>Iowa (Big Ten)</td>
+<td>14</td>
+<td>10-4</td>
+<td>834</td>
+<td>3284</td>
+<td>3.94</td>
+<td>20</td>
+<td>234.6</td>
+<td>...</td>
+<td>28:33</td>
+<td>111</td>
+<td>5</td>
+<td>10</td>
+<td>15</td>
+<td>11</td>
+<td>11</td>
+<td>22</td>
+<td>-7</td>
+<td>-0.50</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">130</th>
+<td>130</td>
+<td>Reclassifying</td>
+<td>Reclassifying</td>
+<td>Reclassifying</td>
+<td>Reclassifying</td>
+<td>Reclassifying</td>
+<td>Reclassifying</td>
+<td>Reclassifying</td>
+<td>Reclassifying</td>
+<td>Reclassifying</td>
+<td>...</td>
+<td>Reclassifying</td>
+<td>Reclassifying</td>
+<td>Reclassifying</td>
+<td>Reclassifying</td>
+<td>Reclassifying</td>
+<td>Reclassifying</td>
+<td>Reclassifying</td>
+<td>Reclassifying</td>
+<td>Reclassifying</td>
+<td>Reclassifying</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">131</th>
+<td>131</td>
+<td>-</td>
+<td>James Madison (Sun Belt)</td>
+<td>13</td>
+<td>11-2</td>
+<td>874</td>
+<td>5446</td>
+<td>6.23</td>
+<td>53</td>
+<td>418.9</td>
+<td>...</td>
+<td>31:17</td>
+<td>-</td>
+<td>8</td>
+<td>13</td>
+<td>21</td>
+<td>4</td>
+<td>11</td>
+<td>15</td>
+<td>6</td>
+<td>0.46</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">132</th>
+<td>132</td>
+<td>-</td>
+<td>Jacksonville St. (CUSA)</td>
+<td>13</td>
+<td>9-4</td>
+<td>997</td>
+<td>5300</td>
+<td>5.32</td>
+<td>47</td>
+<td>407.7</td>
+<td>...</td>
+<td>26:43</td>
+<td>-</td>
+<td>9</td>
+<td>16</td>
+<td>25</td>
+<td>8</td>
+<td>12</td>
+<td>20</td>
+<td>5</td>
+<td>0.38</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">133</th>
+<td>133</td>
+<td>-</td>
+<td>Sam Houston (CUSA)</td>
+<td>12</td>
+<td>3-9</td>
+<td>816</td>
+<td>3737</td>
+<td>4.58</td>
+<td>28</td>
+<td>311.4</td>
+<td>...</td>
+<td>29:42</td>
+<td>-</td>
+<td>7</td>
+<td>13</td>
+<td>20</td>
+<td>4</td>
+<td>12</td>
+<td>16</td>
+<td>4</td>
+<td>0.33</td>
+</tr>
+</tbody>
+</table>
+
+<p>6 rows × 152 columns</p>
+</div>
+</div>
+</div>
+<p>After loading in the data, we want to check to make sure it was loaded in properly. We do this using <code>head</code> and <code>tail</code>. The syntax is just slightly different in Python as you can see above, however it is relatively similar.</p>
+<div id="580eb195" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># shape of the data frame</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>(134, 152)</code></pre>
+</div>
+</div>
+<p><code>.shape</code> returns a tuple with dimensions of the pandas data frame. It is an attribute, not a function and that is why we don’t use <code>()</code>.</p>
+<div id="8b573e79" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># count number of na's for each variable</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>data.isna().<span class="bu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>Unnamed: 0                      0
+Off Rank                        0
+Team                            0
+Games                           0
+Win-Loss                        0
+                               ..
+Fumbles Lost                    0
+Interceptions Thrown_y          0
+Turnovers Lost                  0
+Turnover Margin                 0
+Avg Turnover Margin per Game    0
+Length: 152, dtype: int64</code></pre>
+</div>
 </div>
 </section>
 <section id="common-syntax-errors" class="level2">

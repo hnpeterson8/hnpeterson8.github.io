@@ -10,10 +10,37 @@ format: html
 ## Core Differences Between R and Python Syntax
 
 ## Worked Example
+To practice the different syntax, we will work through an example using a data set of 2023 college football data. The data can be found in the GitHub repository data folder or on Kaggle at this [link](https://www.kaggle.com/datasets/jeffgallini/college-football-team-stats-2019?resource=download&select=cfb23.csv). Below we simply are loading the data in. We start by importing the pandas package which is equivalent to loading in a library such as `tidyverse` in R. We then load the data set in using `pd.read_csv`.
 ```{python}
-# loading in data
+# import pandas (equivalent to loading in libraries in R)
+import pandas as pd
+# import matplotlib for plotting (like ggplot but isn't included in pandas)
+import matplotlib.pyplot as plot
 
+# loading in data
+data = pd.read_csv("data/cfb23.csv")
+
+# check the head and tail of the data to make sure it loaded in correctly
+data.head(6)
 ```
+
+```{python}
+data.tail(6)
+```
+
+After loading in the data, we want to check to make sure it was loaded in properly. We do this using `head` and `tail`. The syntax is just slightly different in Python as you can see above, however it is relatively similar. 
+```{python}
+# shape of the data frame
+data.shape
+```
+
+`.shape` returns a tuple with dimensions of the pandas data frame. It is an attribute, not a function and that is why we don't use `()`. 
+```{python}
+# count number of na's for each variable
+data.isna().sum()
+```
+
+
 
 ## Common Syntax Errors
 
