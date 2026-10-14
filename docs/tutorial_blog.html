@@ -162,8 +162,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#how-to" id="toc-how-to" class="nav-link" data-scroll-target="#how-to">How To</a>
   <ul class="collapse">
   <li><a href="#core-differences-between-r-and-python-syntax" id="toc-core-differences-between-r-and-python-syntax" class="nav-link" data-scroll-target="#core-differences-between-r-and-python-syntax">Core Differences Between R and Python Syntax</a></li>
-  <li><a href="#worked-example" id="toc-worked-example" class="nav-link" data-scroll-target="#worked-example">Worked Example</a></li>
-  <li><a href="#common-syntax-errors" id="toc-common-syntax-errors" class="nav-link" data-scroll-target="#common-syntax-errors">Common Syntax Errors</a></li>
+  <li><a href="#worked-example" id="toc-worked-example" class="nav-link" data-scroll-target="#worked-example">Worked Example</a>
+  <ul class="collapse">
+  <li><a href="#data-importing-and-cleaning" id="toc-data-importing-and-cleaning" class="nav-link" data-scroll-target="#data-importing-and-cleaning">Data Importing and Cleaning</a></li>
+  <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">Analysis</a></li>
+  </ul></li>
+  <li><a href="#common-syntax-errors" id="toc-common-syntax-errors" class="nav-link" data-scroll-target="#common-syntax-errors">Common Syntax Errors</a>
+  <ul class="collapse">
+  <li><a href="#booleans" id="toc-booleans" class="nav-link" data-scroll-target="#booleans">Booleans</a></li>
+  <li><a href="#indexing" id="toc-indexing" class="nav-link" data-scroll-target="#indexing">Indexing</a></li>
+  <li><a href="#missing-value-checks" id="toc-missing-value-checks" class="nav-link" data-scroll-target="#missing-value-checks">Missing Value Checks</a></li>
+  <li><a href="#methods-vs.-attributes" id="toc-methods-vs.-attributes" class="nav-link" data-scroll-target="#methods-vs.-attributes">Methods vs.&nbsp;Attributes</a></li>
+  <li><a href="#logic-negation" id="toc-logic-negation" class="nav-link" data-scroll-target="#logic-negation">Logic Negation</a></li>
+  <li><a href="#column-selection" id="toc-column-selection" class="nav-link" data-scroll-target="#column-selection">Column Selection</a></li>
+  <li><a href="#for-and-if" id="toc-for-and-if" class="nav-link" data-scroll-target="#for-and-if"><code>for</code>, and <code>if</code></a></li>
+  </ul></li>
   <li><a href="#cheat-sheet-guide" id="toc-cheat-sheet-guide" class="nav-link" data-scroll-target="#cheat-sheet-guide">Cheat Sheet Guide</a></li>
   </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
@@ -214,8 +227,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="worked-example" class="level2">
 <h2 class="anchored" data-anchor-id="worked-example">Worked Example</h2>
-<p>To practice the different syntax, we will work through an example using a data set of 2023 college football data. The data can be found in the GitHub repository data folder or on Kaggle at this <a href="https://www.kaggle.com/datasets/jeffgallini/college-football-team-stats-2019?resource=download&amp;select=cfb23.csv">link</a>. Below we simply are loading the data in. We start by importing the pandas package which is equivalent to loading in a library such as <code>tidyverse</code> in R. We then load the data set in using <code>pd.read_csv</code>.</p>
-<div id="b2418c61" class="cell" data-execution_count="1">
+<p>To practice the different syntax, we will work through an example using a data set of 2023 college football data. The data can be found in the GitHub repository data folder or on Kaggle at this <a href="https://www.kaggle.com/datasets/jeffgallini/college-football-team-stats-2019?resource=download&amp;select=cfb23.csv">link</a>.</p>
+<section id="data-importing-and-cleaning" class="level3">
+<h3 class="anchored" data-anchor-id="data-importing-and-cleaning">Data Importing and Cleaning</h3>
+<p>Below we simply are loading the data in. We start by importing the pandas package which is equivalent to loading in a library such as <code>tidyverse</code> in R. We then load the data set in using <code>pd.read_csv</code>.</p>
+<div id="efa8f351" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas (equivalent to loading in libraries in R)</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># import matplotlib for plotting (like ggplot but isn't included in pandas)</span></span>
@@ -409,7 +425,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="a916f0c0" class="cell" data-execution_count="2">
+<div id="577578d9" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data.tail(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div>
@@ -595,7 +611,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>After loading in the data, we want to check to make sure it was loaded in properly. We do this using <code>head</code> and <code>tail</code>. The syntax is just slightly different in Python as you can see above, however it is relatively similar.</p>
-<div id="580eb195" class="cell" data-execution_count="3">
+<div id="02a80a55" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># shape of the data frame</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -603,7 +619,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p><code>.shape</code> returns a tuple with dimensions of the pandas data frame. It is an attribute, not a function and that is why we don’t use <code>()</code>.</p>
-<div id="8b573e79" class="cell" data-execution_count="4">
+<div id="e65f7ad8" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># count number of na's for each variable</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>data.isna().<span class="bu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
@@ -621,9 +637,634 @@ Avg Turnover Margin per Game    0
 Length: 152, dtype: int64</code></pre>
 </div>
 </div>
+<p>Next we want to start running an analysis. To do so we need to do a little bit of data cleaning. For this analysis we will focus on teams, conferences, and their win-loss record. The data luckily has all of this for us but not in the correct format. Like in R, we can use Regex to handle the data extraction. We will do this below to extract the conference from the team name (<code>Team</code>) and the win loss record (<code>Win-Loss</code>). The dataset also includes over 150 columns which are not needed for our analysis. Below we also subset the data so that we only see the columns we care about.</p>
+<div id="0e1f8884" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add the conference variable</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"conference"</span>] <span class="op">=</span> (</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">"Team"</span>]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">str</span>.extract(<span class="vs">r"</span><span class="ch">\(</span><span class="kw">(</span><span class="pp">[^()]</span><span class="op">*</span><span class="kw">)</span><span class="ch">\)</span><span class="dv">\s</span><span class="op">*</span><span class="dv">$</span><span class="vs">"</span>, expand<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># add the win and loss variables</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>data[[<span class="st">"wins"</span>, <span class="st">"losses"</span>]] <span class="op">=</span> (</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">"Win-Loss"</span>]</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">str</span>.extract(<span class="vs">r"</span><span class="dv">^\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="dv">\s</span><span class="op">*</span><span class="vs">-</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span><span class="kw">)</span><span class="dv">\s</span><span class="op">*</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    .astype(<span class="st">"Int64"</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate the win percentage</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"win_pct"</span>] <span class="op">=</span> (</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">"wins"</span>] <span class="op">/</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    (data[<span class="st">"wins"</span>] <span class="op">+</span> data[<span class="st">"losses"</span>])</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">## check things worked by looking at just the selected columns head and tail</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co"># select specific columns to use</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>check_cols <span class="op">=</span> [</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Team"</span>,</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"conference"</span>,</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Win-Loss"</span>,</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"wins"</span>,</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">"losses"</span>, </span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"win_pct"</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="co"># take all rows and just the columns in check_cols</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>football <span class="op">=</span> data.loc[:, check_cols].copy()</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect head</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>football.head(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Team</th>
+<th data-quarto-table-cell-role="th">conference</th>
+<th data-quarto-table-cell-role="th">Win-Loss</th>
+<th data-quarto-table-cell-role="th">wins</th>
+<th data-quarto-table-cell-role="th">losses</th>
+<th data-quarto-table-cell-role="th">win_pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>LSU (SEC)</td>
+<td>SEC</td>
+<td>10-3</td>
+<td>10</td>
+<td>3</td>
+<td>0.769231</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>Oregon (Pac-12)</td>
+<td>Pac-12</td>
+<td>12-2</td>
+<td>12</td>
+<td>2</td>
+<td>0.857143</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>Oklahoma (Big 12)</td>
+<td>Big 12</td>
+<td>10-3</td>
+<td>10</td>
+<td>3</td>
+<td>0.769231</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>Liberty (CUSA)</td>
+<td>CUSA</td>
+<td>13-1</td>
+<td>13</td>
+<td>1</td>
+<td>0.928571</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>Georgia (SEC)</td>
+<td>SEC</td>
+<td>13-1</td>
+<td>13</td>
+<td>1</td>
+<td>0.928571</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="e7a61f3f" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect tail</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>football.tail(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Team</th>
+<th data-quarto-table-cell-role="th">conference</th>
+<th data-quarto-table-cell-role="th">Win-Loss</th>
+<th data-quarto-table-cell-role="th">wins</th>
+<th data-quarto-table-cell-role="th">losses</th>
+<th data-quarto-table-cell-role="th">win_pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">129</th>
+<td>Iowa (Big Ten)</td>
+<td>Big Ten</td>
+<td>10-4</td>
+<td>10</td>
+<td>4</td>
+<td>0.714286</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">130</th>
+<td>Reclassifying</td>
+<td>NaN</td>
+<td>Reclassifying</td>
+<td>&lt;NA&gt;</td>
+<td>&lt;NA&gt;</td>
+<td>&lt;NA&gt;</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">131</th>
+<td>James Madison (Sun Belt)</td>
+<td>Sun Belt</td>
+<td>11-2</td>
+<td>11</td>
+<td>2</td>
+<td>0.846154</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">132</th>
+<td>Jacksonville St. (CUSA)</td>
+<td>CUSA</td>
+<td>9-4</td>
+<td>9</td>
+<td>4</td>
+<td>0.692308</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">133</th>
+<td>Sam Houston (CUSA)</td>
+<td>CUSA</td>
+<td>3-9</td>
+<td>3</td>
+<td>9</td>
+<td>0.25</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>As we can see, the conference and win-loss record was properly extracted and can now be used for an analysis!</p>
+</section>
+<section id="analysis" class="level3">
+<h3 class="anchored" data-anchor-id="analysis">Analysis</h3>
+<p>For our analysis we will look at the best teams and conferences based on win percentage. To start, let us look at which teams have the highest win percentage</p>
+<div id="3c6fa097" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>top_10_teams <span class="op">=</span> football.nlargest(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10</span>, <span class="st">"win_pct"</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>top_10_teams</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Team</th>
+<th data-quarto-table-cell-role="th">conference</th>
+<th data-quarto-table-cell-role="th">Win-Loss</th>
+<th data-quarto-table-cell-role="th">wins</th>
+<th data-quarto-table-cell-role="th">losses</th>
+<th data-quarto-table-cell-role="th">win_pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">66</th>
+<td>Michigan (Big Ten)</td>
+<td>Big Ten</td>
+<td>15-0</td>
+<td>15</td>
+<td>0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>Washington (Pac-12)</td>
+<td>Pac-12</td>
+<td>14-1</td>
+<td>14</td>
+<td>1</td>
+<td>0.933333</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">3</th>
+<td>Liberty (CUSA)</td>
+<td>CUSA</td>
+<td>13-1</td>
+<td>13</td>
+<td>1</td>
+<td>0.928571</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">4</th>
+<td>Georgia (SEC)</td>
+<td>SEC</td>
+<td>13-1</td>
+<td>13</td>
+<td>1</td>
+<td>0.928571</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">51</th>
+<td>Florida St. (ACC)</td>
+<td>ACC</td>
+<td>13-1</td>
+<td>13</td>
+<td>1</td>
+<td>0.928571</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>Oregon (Pac-12)</td>
+<td>Pac-12</td>
+<td>12-2</td>
+<td>12</td>
+<td>2</td>
+<td>0.857143</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>Texas (Big 12)</td>
+<td>Big 12</td>
+<td>12-2</td>
+<td>12</td>
+<td>2</td>
+<td>0.857143</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">55</th>
+<td>Alabama (SEC)</td>
+<td>SEC</td>
+<td>12-2</td>
+<td>12</td>
+<td>2</td>
+<td>0.857143</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12</th>
+<td>Ole Miss (SEC)</td>
+<td>SEC</td>
+<td>11-2</td>
+<td>11</td>
+<td>2</td>
+<td>0.846154</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">27</th>
+<td>Missouri (SEC)</td>
+<td>SEC</td>
+<td>11-2</td>
+<td>11</td>
+<td>2</td>
+<td>0.846154</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>We see that we have 1 undefeated team in 2023 (Michigan). A big difference from how this works in R, is that you use <code>.nlargest</code> rather than sorting (<code>sort</code>) in descending order and then just printing only the first 10. This way is much simpler and cleaner.</p>
+<p>Next we want to compare conferences. Unfortunately, our top 10 list is half SEC schools which I don’t think is the best conference. <strong>Important Note</strong> this dataset is during 2023 which was the year where many schools switched conferences or were in the process so conference alignment does look different today. Let’s see if the SEC is the best conference based on win percentage or just happened to have half of the top 10.</p>
+<div id="2930da6a" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>conference_summary <span class="op">=</span> (</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    football.groupby(<span class="st">"conference"</span>, as_index<span class="op">=</span><span class="va">False</span>)[<span class="st">"win_pct"</span>]</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    .mean()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    .sort_values(<span class="st">"win_pct"</span>, ascending <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>conference_summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">conference</th>
+<th data-quarto-table-cell-role="th">win_pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">9</th>
+<td>SEC</td>
+<td>0.587716</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">8</th>
+<td>Pac-12</td>
+<td>0.561065</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">3</th>
+<td>Big Ten</td>
+<td>0.560636</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>ACC</td>
+<td>0.550497</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>Big 12</td>
+<td>0.544479</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">10</th>
+<td>Sun Belt</td>
+<td>0.521913</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">7</th>
+<td>Mountain West</td>
+<td>0.493819</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">4</th>
+<td>CUSA</td>
+<td>0.479955</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>AAC</td>
+<td>0.466641</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">6</th>
+<td>MAC</td>
+<td>0.455205</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">5</th>
+<td>FBS Independent</td>
+<td>0.442308</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>We can see that the SEC is the top conference, in terms of win percentage. This is not the most accurate or best way to evaluate top conference but it can be used as a piece of an analysis. We will not analyze other metrics to evaluate the best conference. Instead let’s plot the analysis we have done!</p>
+<div id="6179f84a" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the top 15 teams</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>top_15_teams <span class="op">=</span> football.nlargest(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">15</span>, <span class="st">"win_pct"</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>top_15_teams</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Team</th>
+<th data-quarto-table-cell-role="th">conference</th>
+<th data-quarto-table-cell-role="th">Win-Loss</th>
+<th data-quarto-table-cell-role="th">wins</th>
+<th data-quarto-table-cell-role="th">losses</th>
+<th data-quarto-table-cell-role="th">win_pct</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">66</th>
+<td>Michigan (Big Ten)</td>
+<td>Big Ten</td>
+<td>15-0</td>
+<td>15</td>
+<td>0</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">11</th>
+<td>Washington (Pac-12)</td>
+<td>Pac-12</td>
+<td>14-1</td>
+<td>14</td>
+<td>1</td>
+<td>0.933333</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">3</th>
+<td>Liberty (CUSA)</td>
+<td>CUSA</td>
+<td>13-1</td>
+<td>13</td>
+<td>1</td>
+<td>0.928571</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">4</th>
+<td>Georgia (SEC)</td>
+<td>SEC</td>
+<td>13-1</td>
+<td>13</td>
+<td>1</td>
+<td>0.928571</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">51</th>
+<td>Florida St. (ACC)</td>
+<td>ACC</td>
+<td>13-1</td>
+<td>13</td>
+<td>1</td>
+<td>0.928571</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>Oregon (Pac-12)</td>
+<td>Pac-12</td>
+<td>12-2</td>
+<td>12</td>
+<td>2</td>
+<td>0.857143</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>Texas (Big 12)</td>
+<td>Big 12</td>
+<td>12-2</td>
+<td>12</td>
+<td>2</td>
+<td>0.857143</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">55</th>
+<td>Alabama (SEC)</td>
+<td>SEC</td>
+<td>12-2</td>
+<td>12</td>
+<td>2</td>
+<td>0.857143</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">12</th>
+<td>Ole Miss (SEC)</td>
+<td>SEC</td>
+<td>11-2</td>
+<td>11</td>
+<td>2</td>
+<td>0.846154</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">27</th>
+<td>Missouri (SEC)</td>
+<td>SEC</td>
+<td>11-2</td>
+<td>11</td>
+<td>2</td>
+<td>0.846154</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">46</th>
+<td>Ohio St. (Big Ten)</td>
+<td>Big Ten</td>
+<td>11-2</td>
+<td>11</td>
+<td>2</td>
+<td>0.846154</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">131</th>
+<td>James Madison (Sun Belt)</td>
+<td>Sun Belt</td>
+<td>11-2</td>
+<td>11</td>
+<td>2</td>
+<td>0.846154</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">15</th>
+<td>SMU (AAC)</td>
+<td>AAC</td>
+<td>11-3</td>
+<td>11</td>
+<td>3</td>
+<td>0.785714</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">37</th>
+<td>Troy (Sun Belt)</td>
+<td>Sun Belt</td>
+<td>11-3</td>
+<td>11</td>
+<td>3</td>
+<td>0.785714</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">38</th>
+<td>Toledo (MAC)</td>
+<td>MAC</td>
+<td>11-3</td>
+<td>11</td>
+<td>3</td>
+<td>0.785714</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Now that we have the top 15 teams, we see that there was a three way tie in a few spots which is why we were previously leaving a few teams out. It is important to extend the list of top teams since there was a tie and otherwise would have been missed.</p>
+<p>Below we plot these top 15 teams.</p>
+<div id="afb3eb6d" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>top_teams_plot <span class="op">=</span> top_15_teams.sort_values(<span class="st">"win_pct"</span>).plot.barh(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="st">"Team"</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="st">"win_pct"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    legend <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>top_teams_plot.set_title(<span class="st">"Top 15 College Football Teams by Win Percentage (2023)"</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>top_teams_plot.set_xlabel(<span class="st">"Win Percentage"</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>top_teams_plot.set_ylabel(<span class="st">"Team"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tutorial_blog_files/figure-html/cell-11-output-1.png" width="743" height="451" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can see that there is more variation in which conferences are doing well than previously seen. It is also important to see that there are many ties in the data since generally teams play the same amount of games each season leading to the percentages being the same.</p>
+<p>Next let’s look at the top conferences plot.</p>
+<div id="5f13c74f" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>conferences <span class="op">=</span> conference_summary.sort_values(<span class="st">"win_pct"</span>, ascending <span class="op">=</span> <span class="va">False</span>).plot.bar(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="st">"conference"</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="st">"win_pct"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    legend <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>conferences.set_title(<span class="st">"College Football Conferences by Average Win Percentage (2023)"</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>conferences.set_xlabel(<span class="st">"Conference"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>conferences.set_ylabel(<span class="st">"Win Percentage"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="tutorial_blog_files/figure-html/cell-12-output-1.png" width="590" height="554" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This is just a nice way of visually comparing conferences average win percentages.</p>
+<p>Here we see that <code>matplotlib</code> is structured differently than a <code>ggplot</code>. <code>matplotlib</code> actually works a little bit closer to base R plotting. In <code>ggplot</code>, we use the <code>+</code> to add different elements of a plot. In base R you start a plot and then can add things to the plot after the plot is intitialized. This is the same idea for <code>matplotlib</code>.</p>
+</section>
 </section>
 <section id="common-syntax-errors" class="level2">
 <h2 class="anchored" data-anchor-id="common-syntax-errors">Common Syntax Errors</h2>
+<p>This is not an exhaustive list of all syntax errors out there, but this is a list of some of the more common ones I have ran into while switching from R to Python.</p>
+<section id="booleans" class="level3">
+<h3 class="anchored" data-anchor-id="booleans">Booleans</h3>
+<p>In R, for booleans we capitalize the whole word (i.e.&nbsp;<code>TRUE</code>). In Python, we only capitalize the first letter (i.e.&nbsp;<code>True</code>).</p>
+</section>
+<section id="indexing" class="level3">
+<h3 class="anchored" data-anchor-id="indexing">Indexing</h3>
+<p>R has index starting at 1 while Python is indexed starting at 0. This is crucial to remember when trying to access elements of vectors. Ex: <code>vec[1:5]</code> pulls the 1,2,3,4,5 elements in R. <code>vec[0:5]</code> will pull the first 5 elements (0, 1, 2, 3, 4) in python.</p>
+</section>
+<section id="missing-value-checks" class="level3">
+<h3 class="anchored" data-anchor-id="missing-value-checks">Missing Value Checks</h3>
+<p>In R, we use <code>is.na(df$column)</code> to check for NA’s. In Python, we use <code>df[column].isna()</code>.</p>
+</section>
+<section id="methods-vs.-attributes" class="level3">
+<h3 class="anchored" data-anchor-id="methods-vs.-attributes">Methods vs.&nbsp;Attributes</h3>
+<p>In R everything done to an object is done in a function. This includes checking dimensions and types for data. For example, <code>dim(df)</code> return the dimensions of the data and <code>typeof(df$col)</code> returns what data type a column is. In Python, these types of metadata are accessed without parentheses. For example, <code>df.shape</code> returns the shape of the data frame as a tuple and <code>df["col"].dtype</code> returns the data type of the column.</p>
+</section>
+<section id="logic-negation" class="level3">
+<h3 class="anchored" data-anchor-id="logic-negation">Logic Negation</h3>
+<p>In R we use <code>!</code> to negate (<code>if (!is.na(df$col)){}</code>). In python we use <code>not</code> (<code>if not df["col"].isna().any():</code>). We also see here the syntax for <code>if</code> statements and <code>for</code> loops.</p>
+</section>
+<section id="column-selection" class="level3">
+<h3 class="anchored" data-anchor-id="column-selection">Column Selection</h3>
+<p>With <code>dplyr</code> in R we can use the <code>select</code> function. For example, <code>select(df, col1, col2)</code>. In Python we have to use a list of strings with double brackets. For example, <code>df[["col1", "col2"]]</code></p>
+</section>
+<section id="for-and-if" class="level3">
+<h3 class="anchored" data-anchor-id="for-and-if"><code>for</code>, and <code>if</code></h3>
+<p>In R we construct a <code>for</code> loop by doing: <code>for (variable in seq) {      #code for each iteration }</code></p>
+<p>In Python we construct a <code>for</code> loop by doing: <code>for variable in iterable:     #code for each iteration     # make sure it is idented</code></p>
+<p>In R we construct an <code>if</code> statment by doing: <code>if (condition){     # whatever you want to happen } else if (condition 2){     # whatever you want to happen } else{     # whatever you want to happen }</code></p>
+<p>In Python we construct an <code>if</code> statment by doing: <code>if condition:     # indented whatever you want to happen elif condition:     # indented whatever you want to happen else:     # indented whatever you want to happen</code></p>
+</section>
 </section>
 <section id="cheat-sheet-guide" class="level2">
 <h2 class="anchored" data-anchor-id="cheat-sheet-guide">Cheat Sheet Guide</h2>

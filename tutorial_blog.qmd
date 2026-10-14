@@ -10,7 +10,10 @@ format: html
 ## Core Differences Between R and Python Syntax
 
 ## Worked Example
-To practice the different syntax, we will work through an example using a data set of 2023 college football data. The data can be found in the GitHub repository data folder or on Kaggle at this [link](https://www.kaggle.com/datasets/jeffgallini/college-football-team-stats-2019?resource=download&select=cfb23.csv). Below we simply are loading the data in. We start by importing the pandas package which is equivalent to loading in a library such as `tidyverse` in R. We then load the data set in using `pd.read_csv`.
+To practice the different syntax, we will work through an example using a data set of 2023 college football data. The data can be found in the GitHub repository data folder or on Kaggle at this [link](https://www.kaggle.com/datasets/jeffgallini/college-football-team-stats-2019?resource=download&select=cfb23.csv). 
+
+### Data Importing and Cleaning
+Below we simply are loading the data in. We start by importing the pandas package which is equivalent to loading in a library such as `tidyverse` in R. We then load the data set in using `pd.read_csv`.
 ```{python}
 # import pandas (equivalent to loading in libraries in R)
 import pandas as pd
@@ -40,9 +43,172 @@ data.shape
 data.isna().sum()
 ```
 
+Next we want to start running an analysis. To do so we need to do a little bit of data cleaning. For this analysis we will focus on teams, conferences, and their win-loss record. The data luckily has all of this for us but not in the correct format. Like in R, we can use Regex to handle the data extraction. We will do this below to extract the conference from the team name (`Team`) and the win loss record (`Win-Loss`). The dataset also includes over 150 columns which are not needed for our analysis. Below we also subset the data so that we only see the columns we care about.
+```{python}
+# add the conference variable
+data["conference"] = (
+    data["Team"]
+    .str.extract(r"\(([^()]*)\)\s*$", expand=False)
+)
 
+# add the win and loss variables
+data[["wins", "losses"]] = (
+    data["Win-Loss"]
+    .str.extract(r"^\s*(\d+)\s*-\s*(\d+)\s*$")
+    .astype("Int64")
+)
+
+# calculate the win percentage
+data["win_pct"] = (
+    data["wins"] /
+    (data["wins"] + data["losses"])
+)
+
+## check things worked by looking at just the selected columns head and tail
+# select specific columns to use
+check_cols = [
+    "Team",
+    "conference",
+    "Win-Loss",
+    "wins",
+    "losses", 
+    "win_pct"
+]
+
+
+# take all rows and just the columns in check_cols
+football = data.loc[:, check_cols].copy()
+
+# inspect head
+football.head(5)
+```
+
+```{python}
+# inspect tail
+football.tail(5)
+```
+
+As we can see, the conference and win-loss record was properly extracted and can now be used for an analysis!
+
+### Analysis
+For our analysis we will look at the best teams and conferences based on win percentage. To start, let us look 
+at which teams have the highest win percentage
+```{python}
+top_10_teams = football.nlargest(
+    10, "win_pct"
+)
+top_10_teams
+```
+
+We see that we have 1 undefeated team in 2023 (Michigan). A big difference from how this works in R, is that you use `.nlargest` rather than sorting (`sort`) in descending order and then just printing only the first 10. This way is much simpler and cleaner. 
+
+Next we want to compare conferences. Unfortunately, our top 10 list is half SEC schools which I don't think is the best conference. **Important Note** this dataset is during 2023 which was the year where many schools switched conferences or were in the process so conference alignment does look different today. Let's see if the SEC is the best conference based on win percentage or just happened to have half of the top 10. 
+
+```{python}
+conference_summary = (
+    football.groupby("conference", as_index=False)["win_pct"]
+    .mean()
+    .sort_values("win_pct", ascending = False)
+)
+
+conference_summary
+```
+
+We can see that the SEC is the top conference, in terms of win percentage. This is not the most accurate or best way to evaluate top conference but it can be used as a piece of an analysis. We will not analyze other metrics to evaluate the best conference. Instead let's plot the analysis we have done!
+
+```{python}
+# get the top 15 teams
+top_15_teams = football.nlargest(
+    15, "win_pct"
+)
+
+top_15_teams
+```
+
+Now that we have the top 15 teams, we see that there was a three way tie in a few spots which is why we were previously leaving a few teams out. It is important to extend the list of top teams since there was a tie and otherwise would have been missed. 
+
+Below we plot these top 15 teams.
+```{python}
+top_teams_plot = top_15_teams.sort_values("win_pct").plot.barh(
+    x = "Team",
+    y = "win_pct",
+    legend = False
+)
+
+top_teams_plot.set_title("Top 15 College Football Teams by Win Percentage (2023)")
+top_teams_plot.set_xlabel("Win Percentage")
+top_teams_plot.set_ylabel("Team")
+```
+
+We can see that there is more variation in which conferences are doing well than previously seen. It is also important to see that there are many ties in the data since generally teams play the same amount of games each season leading to the percentages being the same. 
+
+Next let's look at the top conferences plot.
+```{python}
+conferences = conference_summary.sort_values("win_pct", ascending = False).plot.bar(
+    x = "conference",
+    y = "win_pct",
+    legend = False
+)
+
+conferences.set_title("College Football Conferences by Average Win Percentage (2023)")
+conferences.set_xlabel("Conference")
+conferences.set_ylabel("Win Percentage")
+```
+
+This is just a nice way of visually comparing conferences average win percentages. 
+
+Here we see that `matplotlib` is structured differently than a `ggplot`. `matplotlib` actually works a little bit closer to base R plotting. In `ggplot`, we use the `+` to add different elements of a plot. In base R you start a plot and then can add things to the plot after the plot is intitialized. This is the same idea for `matplotlib`. 
 
 ## Common Syntax Errors
+This is not an exhaustive list of all syntax errors out there, but this is a list of some of the more common ones I have ran into while switching from R to Python. 
+
+### Booleans
+In R, for booleans we capitalize the whole word (i.e. `TRUE`). In Python, we only capitalize the first letter (i.e. `True`). 
+
+### Indexing
+R has index starting at 1 while Python is indexed starting at 0. This is crucial to remember when trying to access elements of vectors.
+Ex: `vec[1:5]` pulls the 1,2,3,4,5 elements in R. `vec[0:5]` will pull the first 5 elements (0, 1, 2, 3, 4) in python.
+
+### Missing Value Checks
+In R, we use `is.na(df$column)` to check for NA's. In Python, we use `df[column].isna()`.
+
+### Methods vs. Attributes
+In R everything done to an object is done in a function. This includes checking dimensions and types for data. For example, `dim(df)` return the dimensions of the data and `typeof(df$col)` returns what data type a column is. In Python, these types of metadata are accessed without parentheses. For example, `df.shape` returns the shape of the data frame as a tuple and `df["col"].dtype` returns the data type of the column. 
+
+### Logic Negation
+In R we use `!` to negate (`if (!is.na(df$col)){}`). In python we use `not` (`if not df["col"].isna().any():`). We also see here the syntax for `if` statements and `for` loops.
+
+### Column Selection
+With `dplyr` in R we can use the `select` function. For example, `select(df, col1, col2)`. In Python we have to use a list of strings with double brackets. For example, `df[["col1", "col2"]]`
+
+### `for`, and `if`
+In R we construct a `for` loop by doing: 
+`for (variable in seq) { 
+    #code for each iteration
+}`
+
+In Python we construct a `for` loop by doing:
+`for variable in iterable:
+    #code for each iteration
+    # make sure it is idented`
+
+In R we construct an `if` statment by doing:
+`if (condition){
+    # whatever you want to happen
+} else if (condition 2){
+    # whatever you want to happen
+} else{
+    # whatever you want to happen
+}`
+
+In Python we construct an `if` statment by doing:
+`if condition:
+    # indented whatever you want to happen
+elif condition:
+    # indented whatever you want to happen
+else:
+    # indented whatever you want to happen`
+
 
 ## Cheat Sheet Guide
 | Operation | R (`dplyr`/ Base R) | Python (`pandas`) | Helpful Notes |
