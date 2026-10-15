@@ -8,7 +8,7 @@ format: html
 Are you having a hard time switching from R to Python? Are the syntax errors making you crazy? Here is a step by step guide to help alleviate the frustration over syntax differences in R and Python. 
 
 # How To
-## Core Differences Between R and Python Syntax
+In this section, we will walk through an example data set, see common syntax differences, and finish with a cheat sheet guide of functions in R and their Python counterpart. 
 
 ## Worked Example
 To practice the different syntax, we will work through an example using a data set of 2023 college football data. The data can be found in the GitHub repository data folder or on Kaggle at this [link](https://www.kaggle.com/datasets/jeffgallini/college-football-team-stats-2019?resource=download&select=cfb23.csv). 
@@ -161,8 +161,8 @@ This is just a nice way of visually comparing conferences average win percentage
 
 Here we see that `matplotlib` is structured differently than a `ggplot`. `matplotlib` actually works a little bit closer to base R plotting. In `ggplot`, we use the `+` to add different elements of a plot. In base R you start a plot and then can add things to the plot after the plot is intitialized. This is the same idea for `matplotlib`. 
 
-## Common Syntax Errors
-This is not an exhaustive list of all syntax errors out there, but this is a list of some of the more common ones I have ran into while switching from R to Python. 
+## Common Syntax Differences
+This is not an exhaustive list of all syntax differences between the two languages, but this is a list of some of the more common ones I have ran into while switching from R to Python. 
 
 ### Booleans
 In R, for booleans we capitalize the whole word (i.e. `TRUE`). In Python, we only capitalize the first letter (i.e. `True`). 

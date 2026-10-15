@@ -33,5 +33,19 @@
     "title": "Tidyverse to Pandas: A How to Guide to Transition from R to Python",
     "section": "Cheat Sheet Guide",
     "text": "Cheat Sheet Guide\n\n\n\nTable 1: Common functions cheat sheet\n\n\n\n\n\n\n\n\n\n\n\nOperation\nR (dplyr/ Base R)\nPython (pandas)\nHelpful Notes\n\n\n\n\nInspect types\nglimpse(df) / str(df)\ndf.info() or df.dtypes\n.dtypes has no parentheses\n\n\nSelect columns\nselect(df, a, b)\ndf[['a', 'b']]\nRequires double brackets [[]]\n\n\nFilter Rows\nfilter(df, a &gt; 5 & b &lt; 10)\ndf[(df['a'] &gt; 5) & (df['b'] &lt; 10)]\nMust use & and warp conditions in ()\n\n\nRange filter\nfilter(between(a, 5, 10))\ndf[df['a'].between(5, 10)]\nInclusive on both ends by default\n\n\nDistinct count\nn_distinct(df$col)\ndf['col'].nunique()\nDon’t use .count()\n\n\nFrequency table\ncount(df, col)\ndf['col'].value_counts()\nReturns counts per unique value"
+  },
+  {
+    "objectID": "tutorial_blog.html",
+    "href": "tutorial_blog.html",
+    "title": "Tidyverse to Pandas: A How to Guide to Transition from R to Python",
+    "section": "",
+    "text": "Are you having a hard time switching from R to Python? Are the syntax errors making you crazy? Here is a step by step guide to help alleviate the frustration over syntax differences in R and Python."
+  },
+  {
+    "objectID": "tutorial_blog.html#common-syntax-differences",
+    "href": "tutorial_blog.html#common-syntax-differences",
+    "title": "Tidyverse to Pandas: A How to Guide to Transition from R to Python",
+    "section": "Common Syntax Differences",
+    "text": "Common Syntax Differences\nThis is not an exhaustive list of all syntax differences between the two languages, but this is a list of some of the more common ones I have ran into while switching from R to Python.\n\nBooleans\nIn R, for booleans we capitalize the whole word (i.e. TRUE). In Python, we only capitalize the first letter (i.e. True).\n\n\nIndexing\nR has index starting at 1 while Python is indexed starting at 0. This is crucial to remember when trying to access elements of vectors. Ex: vec[1:5] pulls the 1,2,3,4,5 elements in R. vec[0:5] will pull the first 5 elements (0, 1, 2, 3, 4) in python.\n\n\nMissing Value Checks\nIn R, we use is.na(df$column) to check for NA’s. In Python, we use df[column].isna().\n\n\nMethods vs. Attributes\nIn R everything done to an object is done in a function. This includes checking dimensions and types for data. For example, dim(df) return the dimensions of the data and typeof(df$col) returns what data type a column is. In Python, these types of metadata are accessed without parentheses. For example, df.shape returns the shape of the data frame as a tuple and df[\"col\"].dtype returns the data type of the column.\n\n\nLogic Negation\nIn R we use ! to negate (if (!is.na(df$col)){}). In python we use not (if not df[\"col\"].isna().any():). We also see here the syntax for if statements and for loops.\n\n\nColumn Selection\nWith dplyr in R we can use the select function. For example, select(df, col1, col2). In Python we have to use a list of strings with double brackets. For example, df[[\"col1\", \"col2\"]]\n\n\nfor, and if\nIn R we construct a for loop by doing:\nfor (variable in seq) { \n    #code for each iteration\n}\nIn Python we construct a for loop by doing:\nfor variable in iterable:\n    #code for each iteration\n    # make sure it is idented\nIn R we construct an if statment by doing:\nif (condition){\n    # whatever you want to happen\n} else if (condition 2){\n    # whatever you want to happen\n} else{\n    # whatever you want to happen\n}\nIn Python we construct an if statment by doing:\nif condition: \n    # indented whatever you want to happen\nelif condition: \n    # indented whatever you want to happen\nelse: \n    # indented whatever you want to happen"
   }
 ]
