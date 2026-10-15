@@ -5,6 +5,7 @@ date: last-modified
 format: html
 ---
 # Introduction
+Are you having a hard time switching from R to Python? Are the syntax errors making you crazy? Here is a step by step guide to help alleviate the frustration over syntax differences in R and Python. 
 
 # How To
 ## Core Differences Between R and Python Syntax
@@ -102,7 +103,19 @@ top_10_teams
 
 We see that we have 1 undefeated team in 2023 (Michigan). A big difference from how this works in R, is that you use `.nlargest` rather than sorting (`sort`) in descending order and then just printing only the first 10. This way is much simpler and cleaner. 
 
-Next we want to compare conferences. Unfortunately, our top 10 list is half SEC schools which I don't think is the best conference. **Important Note** this dataset is during 2023 which was the year where many schools switched conferences or were in the process so conference alignment does look different today. Let's see if the SEC is the best conference based on win percentage or just happened to have half of the top 10. 
+Because of the way the season works, there is a high chance there are ties in the win percentage. Python will just grab the first one it finds. Let's extend the list of top teams.
+```{python}
+# get the top 15 teams
+top_15_teams = football.nlargest(
+    15, "win_pct"
+)
+
+top_15_teams
+```
+
+Now that we have the top 15 teams, we see that there were three/four way ties for all of the last 13. It is important to extend the list of top teams since there was a tie and otherwise would have been missed. There could be more ties further down but for sake of space we will keep it at 15. 
+
+Next we want to compare conferences. **Important Note:** this dataset is during 2023 which was the year where many schools switched conferences or were in the process so conference alignment does look different today. Let's see which conference has the highest win percentage.
 
 ```{python}
 conference_summary = (
@@ -114,18 +127,7 @@ conference_summary = (
 conference_summary
 ```
 
-We can see that the SEC is the top conference, in terms of win percentage. This is not the most accurate or best way to evaluate top conference but it can be used as a piece of an analysis. We will not analyze other metrics to evaluate the best conference. Instead let's plot the analysis we have done!
-
-```{python}
-# get the top 15 teams
-top_15_teams = football.nlargest(
-    15, "win_pct"
-)
-
-top_15_teams
-```
-
-Now that we have the top 15 teams, we see that there was a three way tie in a few spots which is why we were previously leaving a few teams out. It is important to extend the list of top teams since there was a tie and otherwise would have been missed. 
+We can see that the SEC is the top conference, in terms of win percentage. This is not the most accurate or best way to evaluate top conference but it can be used as a piece of an analysis. We will not analyze other metrics to evaluate the best conference. Instead, let's plot the analysis we have done!
 
 Below we plot these top 15 teams.
 ```{python}
@@ -140,7 +142,7 @@ top_teams_plot.set_xlabel("Win Percentage")
 top_teams_plot.set_ylabel("Team")
 ```
 
-We can see that there is more variation in which conferences are doing well than previously seen. It is also important to see that there are many ties in the data since generally teams play the same amount of games each season leading to the percentages being the same. 
+We can see that all of our top 15 teams are over 0.5 win percentage which would make sense for top teams. It is also important to see that there are many ties in the data since generally teams play the same amount of games each season leading to the percentages being the same. 
 
 Next let's look at the top conferences plot.
 ```{python}
@@ -183,31 +185,39 @@ With `dplyr` in R we can use the `select` function. For example, `select(df, col
 
 ### `for`, and `if`
 In R we construct a `for` loop by doing: 
-`for (variable in seq) { 
+```R
+for (variable in seq) { 
     #code for each iteration
-}`
+}
+```
 
 In Python we construct a `for` loop by doing:
-`for variable in iterable:
+```python
+for variable in iterable:
     #code for each iteration
-    # make sure it is idented`
+    # make sure it is idented
+```
 
 In R we construct an `if` statment by doing:
-`if (condition){
+```R
+if (condition){
     # whatever you want to happen
 } else if (condition 2){
     # whatever you want to happen
 } else{
     # whatever you want to happen
-}`
+}
+```
 
-In Python we construct an `if` statment by doing:
-`if condition:
+In Python we construct an `if` statment by doing: 
+```python
+if condition: 
     # indented whatever you want to happen
-elif condition:
+elif condition: 
     # indented whatever you want to happen
-else:
-    # indented whatever you want to happen`
+else: 
+    # indented whatever you want to happen
+```
 
 
 ## Cheat Sheet Guide
@@ -222,3 +232,4 @@ else:
 : Common functions cheat sheet {#tbl-cheat_sheet}
 
 # Conclusion
+There is still more to learn if you are switching from R to Python, but hopefully this gives you a basic understanding of how to import and wrangle data before doing some EDA. Switching between languages can be tricky and I hope that the @tbl-cheat_sheet provides some syntax help for switching between the two languages. Good luck!
