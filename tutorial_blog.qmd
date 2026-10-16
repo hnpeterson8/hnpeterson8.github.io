@@ -131,6 +131,7 @@ We can see that the SEC is the top conference, in terms of win percentage. This 
 
 Below we plot these top 15 teams.
 ```{python}
+#| fig-alt: "A bar plot of the 15 top teams of 2023 based on win percentage, in descending order."
 top_teams_plot = top_15_teams.sort_values("win_pct").plot.barh(
     x = "Team",
     y = "win_pct",
@@ -146,6 +147,7 @@ We can see that all of our top 15 teams are over 0.5 win percentage which would 
 
 Next let's look at the top conferences plot.
 ```{python}
+#| fig-alt: "A bar plot showing the average college football win percentage by conference in descending order for 2023."
 conferences = conference_summary.sort_values("win_pct", ascending = False).plot.bar(
     x = "conference",
     y = "win_pct",

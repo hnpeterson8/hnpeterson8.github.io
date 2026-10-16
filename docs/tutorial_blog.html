@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Hailey Peterson">
-<meta name="dcterms.date" content="2026-10-14">
+<meta name="dcterms.date" content="2026-10-15">
 
 <title>Tidyverse to Pandas: A How to Guide to Transition from R to Python – Hailey Peterson</title>
 <style>
@@ -204,7 +204,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 14, 2026</p>
+      <p class="date">October 15, 2026</p>
     </div>
   </div>
   
@@ -229,7 +229,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="data-importing-and-cleaning" class="level3">
 <h3 class="anchored" data-anchor-id="data-importing-and-cleaning">Data Importing and Cleaning</h3>
 <p>Below we simply are loading the data in. We start by importing the pandas package which is equivalent to loading in a library such as <code>tidyverse</code> in R. We then load the data set in using <code>pd.read_csv</code>.</p>
-<div id="7918a92d" class="cell" data-execution_count="1">
+<div id="d57448a0" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas (equivalent to loading in libraries in R)</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># import matplotlib for plotting (like ggplot but isn't included in pandas)</span></span>
@@ -423,7 +423,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="74f82484" class="cell" data-execution_count="2">
+<div id="4a2b4f82" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data.tail(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <div>
@@ -609,7 +609,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>After loading in the data, we want to check to make sure it was loaded in properly. We do this using <code>head</code> and <code>tail</code>. The syntax is just slightly different in Python as you can see above, however it is relatively similar.</p>
-<div id="527199df" class="cell" data-execution_count="3">
+<div id="ad1afdd9" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># shape of the data frame</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
@@ -617,7 +617,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p><code>.shape</code> returns a tuple with dimensions of the pandas data frame. It is an attribute, not a function and that is why we don’t use <code>()</code>.</p>
-<div id="6b0eabf2" class="cell" data-execution_count="4">
+<div id="eabddebb" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># count number of na's for each variable</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>data.isna().<span class="bu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
@@ -636,7 +636,7 @@ Length: 152, dtype: int64</code></pre>
 </div>
 </div>
 <p>Next we want to start running an analysis. To do so we need to do a little bit of data cleaning. For this analysis we will focus on teams, conferences, and their win-loss record. The data luckily has all of this for us but not in the correct format. Like in R, we can use Regex to handle the data extraction. We will do this below to extract the conference from the team name (<code>Team</code>) and the win loss record (<code>Win-Loss</code>). The dataset also includes over 150 columns which are not needed for our analysis. Below we also subset the data so that we only see the columns we care about.</p>
-<div id="c341906c" class="cell" data-execution_count="5">
+<div id="584fae15" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add the conference variable</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"conference"</span>] <span class="op">=</span> (</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">"Team"</span>]</span>
@@ -741,7 +741,7 @@ Length: 152, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="d1e79a99" class="cell" data-execution_count="6">
+<div id="3095e034" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect tail</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>football.tail(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
@@ -817,7 +817,7 @@ Length: 152, dtype: int64</code></pre>
 <section id="analysis" class="level3">
 <h3 class="anchored" data-anchor-id="analysis">Analysis</h3>
 <p>For our analysis we will look at the best teams and conferences based on win percentage. To start, let us look at which teams have the highest win percentage</p>
-<div id="1b3cb7d4" class="cell" data-execution_count="7">
+<div id="a7b95a4a" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>top_10_teams <span class="op">=</span> football.nlargest(</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10</span>, <span class="st">"win_pct"</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -937,7 +937,7 @@ Length: 152, dtype: int64</code></pre>
 </div>
 <p>We see that we have 1 undefeated team in 2023 (Michigan). A big difference from how this works in R, is that you use <code>.nlargest</code> rather than sorting (<code>sort</code>) in descending order and then just printing only the first 10. This way is much simpler and cleaner.</p>
 <p>Because of the way the season works, there is a high chance there are ties in the win percentage. Python will just grab the first one it finds. Let’s extend the list of top teams.</p>
-<div id="370b8792" class="cell" data-execution_count="8">
+<div id="6837a4a0" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the top 15 teams</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>top_15_teams <span class="op">=</span> football.nlargest(</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">15</span>, <span class="st">"win_pct"</span></span>
@@ -1104,7 +1104,7 @@ Length: 152, dtype: int64</code></pre>
 </div>
 <p>Now that we have the top 15 teams, we see that there were three/four way ties for all of the last 13. It is important to extend the list of top teams since there was a tie and otherwise would have been missed. There could be more ties further down but for sake of space we will keep it at 15.</p>
 <p>Next we want to compare conferences. <strong>Important Note:</strong> this dataset is during 2023 which was the year where many schools switched conferences or were in the process so conference alignment does look different today. Let’s see which conference has the highest win percentage.</p>
-<div id="c5183fcc" class="cell" data-execution_count="9">
+<div id="f46aba2b" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>conference_summary <span class="op">=</span> (</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    football.groupby(<span class="st">"conference"</span>, as_index<span class="op">=</span><span class="va">False</span>)[<span class="st">"win_pct"</span>]</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    .mean()</span>
@@ -1188,7 +1188,7 @@ Length: 152, dtype: int64</code></pre>
 </div>
 <p>We can see that the SEC is the top conference, in terms of win percentage. This is not the most accurate or best way to evaluate top conference but it can be used as a piece of an analysis. We will not analyze other metrics to evaluate the best conference. Instead, let’s plot the analysis we have done!</p>
 <p>Below we plot these top 15 teams.</p>
-<div id="1f42f6b0" class="cell" data-execution_count="10">
+<div id="690d43ee" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>top_teams_plot <span class="op">=</span> top_15_teams.sort_values(<span class="st">"win_pct"</span>).plot.barh(</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="st">"Team"</span>,</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="st">"win_pct"</span>,</span>
@@ -1201,14 +1201,14 @@ Length: 152, dtype: int64</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="tutorial_blog_files/figure-html/cell-11-output-1.png" width="743" height="451" class="figure-img"></p>
+<p><img src="tutorial_blog_files/figure-html/cell-11-output-1.png" alt="A bar plot of the 15 top teams of 2023 based on win percentage, in descending order." width="743" height="451" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>We can see that all of our top 15 teams are over 0.5 win percentage which would make sense for top teams. It is also important to see that there are many ties in the data since generally teams play the same amount of games each season leading to the percentages being the same.</p>
 <p>Next let’s look at the top conferences plot.</p>
-<div id="a522a3ae" class="cell" data-execution_count="11">
+<div id="9d2a8a28" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>conferences <span class="op">=</span> conference_summary.sort_values(<span class="st">"win_pct"</span>, ascending <span class="op">=</span> <span class="va">False</span>).plot.bar(</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="st">"conference"</span>,</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="st">"win_pct"</span>,</span>
@@ -1221,7 +1221,7 @@ Length: 152, dtype: int64</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="tutorial_blog_files/figure-html/cell-12-output-1.png" width="590" height="554" class="figure-img"></p>
+<p><img src="tutorial_blog_files/figure-html/cell-12-output-1.png" alt="A bar plot showing the average college football win percentage by conference in descending order for 2023." width="590" height="554" class="figure-img"></p>
 </figure>
 </div>
 </div>
