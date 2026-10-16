@@ -5,26 +5,25 @@ date: last-modified
 format: html
 ---
 # Introduction
-Are you having a hard time switching from R to Python? Are the syntax errors making you crazy? Here is a step by step guide to help alleviate the frustration over syntax differences in R and Python. 
+For many statistics students, we first learned R or did Python. Stat 250 taught us to love the `tidyverse` with its ease of data wrangling. It allowed us to use the pipes `|>` and `%>%` as well as the plain English functions `select()` and `filter()`. When we now need to learn Python, the switch can daunting and throw us some curveballs and many errors. Python keeps throwing `AttributeError` and `ValueError` at us and we do not know what to do. The challenge comes from the way Python and R handle data structures. Python handles data structures through an **object-oriented** lens as compared to R which handles data a **functional** lens. In R, functions work on data frames whereas in Python, DataFrames are objects with their own methods and attributes. 
+This tutorial is here to bridge this gap. We will walk through importing, cleaning, and exploring a real-world sports dataset in pandas, work through the most frequent syntax stumbling blocks, provide a handy comparison table, and equip you to write your own clean Python code without syntax errors.
 
-# How To
-In this section, we will walk through an example data set, see common syntax differences, and finish with a cheat sheet guide of functions in R and their Python counterpart. 
+# How To: A Worked Example in College Football
+To see how `pandas` compares to `tidyverse`, we will analyze a dataset of 2023 NCAA College Football statistics. The dataset is available in this project's GitHub repository or can be downloaded from directly from [Kaggle's College Football Team Stats](https://www.kaggle.com/datasets/jeffgallini/college-football-team-stats-2019?resource=download&select=cfb23.csv).
 
-## Worked Example
-To practice the different syntax, we will work through an example using a data set of 2023 college football data. The data can be found in the GitHub repository data folder or on Kaggle at this [link](https://www.kaggle.com/datasets/jeffgallini/college-football-team-stats-2019?resource=download&select=cfb23.csv). 
-
-### Data Importing and Cleaning
-Below we simply are loading the data in. We start by importing the pandas package which is equivalent to loading in a library such as `tidyverse` in R. We then load the data set in using `pd.read_csv`.
+## Data Importing and Inspection
+In R, we start a session by calling `library(tidyverse)`. In Python, we import libraries explicitly and typically assign them standard abbreviations using `as`.
 ```{python}
-# import pandas (equivalent to loading in libraries in R)
+# import pandas for data manipulation
 import pandas as pd
 # import matplotlib for plotting (like ggplot but isn't included in pandas)
-import matplotlib.pyplot as plot
+import matplotlib.pyplot as plt
 
-# loading in data
+# loading in data as a pandas DataFrame
 data = pd.read_csv("data/cfb23.csv")
 
 # check the head and tail of the data to make sure it loaded in correctly
+# similar to head(data, 6) in R
 data.head(6)
 ```
 
@@ -32,19 +31,34 @@ data.head(6)
 data.tail(6)
 ```
 
-After loading in the data, we want to check to make sure it was loaded in properly. We do this using `head` and `tail`. The syntax is just slightly different in Python as you can see above, however it is relatively similar. 
+Notice the syntax pattern: rather than passing the dataset into a standalone function like `tail(data, 6)`, our DataFram `data` calls its own method `.tail(6)`.
+
+Next, let's inspect the dimensions of the table.
 ```{python}
-# shape of the data frame
+# returns the dimensions (rows, columns) of the df
 data.shape
 ```
 
-`.shape` returns a tuple with dimensions of the pandas data frame. It is an attribute, not a function and that is why we don't use `()`. 
+Here is our first major conceptual difference: `.shape` does not take parenthenses `()`. In Python, `data.shape` is an **attribute**, not a **method**. Calling `data.shape()` will raise a `TypeError: 'tuple' object is not callable`.
+
+To check for missing values across all columns, we can chain two methods:
 ```{python}
 # count number of na's for each variable
 data.isna().sum()
 ```
 
-Next we want to start running an analysis. To do so we need to do a little bit of data cleaning. For this analysis we will focus on teams, conferences, and their win-loss record. The data luckily has all of this for us but not in the correct format. Like in R, we can use Regex to handle the data extraction. We will do this below to extract the conference from the team name (`Team`) and the win loss record (`Win-Loss`). The dataset also includes over 150 columns which are not needed for our analysis. Below we also subset the data so that we only see the columns we care about.
+In R, we might write `colSums(is.na(data))`. In pandas, `.isna()` generates a boolean mask of `True` and `False` values, and `.sum()` adds them up along each column (`True` = 1 and `False` = 0).
+
+## Data Cleaning and Wrangling
+
+Our raw data set contains 152 columns, most of which are not needed for our analysis. We want to be able to evaluate team and conference performance based on win percentages and conference affliation.
+
+However, there is not column for `conference` and instead the conference is embedded in the team column and wins and losses are grouped in the same column. Each come with unique formatting issues:
+1. The conference is trapped inside the raw `Team` column wrapped in parentheses (e.g., `"Michigan (Big 10)`).
+2. Wins and losses are stored together in the `Win-Loss` column as a string separated by a hyphen (e.g., `"15-0"`).
+
+Just like using `stringr` in R, pandas provides a vectorized `.str` attribute to perform regular expression extractions:
+
 ```{python}
 # add the conference variable
 data["conference"] = (
@@ -78,6 +92,7 @@ check_cols = [
 
 
 # take all rows and just the columns in check_cols
+# subset rows and columns using .loc and create a copy of the data.
 football = data.loc[:, check_cols].copy()
 
 # inspect head
@@ -89,21 +104,21 @@ football.head(5)
 football.tail(5)
 ```
 
-As we can see, the conference and win-loss record was properly extracted and can now be used for an analysis!
+In `dplyr`, we would write `select(data, Team, conference, wins, losses, win_pct)`. In pandas, column selection requires passing a Python list of strings enclosed in double brackets: `data[["col1", "col2"]]`.
 
-### Analysis
-For our analysis we will look at the best teams and conferences based on win percentage. To start, let us look 
-at which teams have the highest win percentage
+### Exploratory Analysis: Teams and Conferences
+Now that our data is tidy and ready to work with, let's find the top-performing teams. In R, we would arrange by win percentage in descending order and then slice the top rows (`data |> arrange(desc(win_pct)) |> slice_head(n = 10)`). Pandas provides a convenient shortcut: `.nlargest()`. 
+
 ```{python}
+# retrieve the top 10 teams by win percentage
 top_10_teams = football.nlargest(
     10, "win_pct"
 )
 top_10_teams
 ```
 
-We see that we have 1 undefeated team in 2023 (Michigan). A big difference from how this works in R, is that you use `.nlargest` rather than sorting (`sort`) in descending order and then just printing only the first 10. This way is much simpler and cleaner. 
+Because college football seasons feature relatively few games, win percentages often result in multi-team ties. Notice that Michigan was the sole undefeated team (1.0), but positions 3 through 10 we see instances of shared `win_pct`. By default, `.nlargest()` keeps the first occurrences (`keep='first'`). Let's expand our query to 15 teams to see the breadth of the tie:
 
-Because of the way the season works, there is a high chance there are ties in the win percentage. Python will just grab the first one it finds. Let's extend the list of top teams.
 ```{python}
 # get the top 15 teams
 top_15_teams = football.nlargest(
@@ -113,9 +128,9 @@ top_15_teams = football.nlargest(
 top_15_teams
 ```
 
-Now that we have the top 15 teams, we see that there were three/four way ties for all of the last 13. It is important to extend the list of top teams since there was a tie and otherwise would have been missed. There could be more ties further down but for sake of space we will keep it at 15. 
+Next, let's aggregate performance by confernece. In R, we use `group_by(conference) |> summarize(mean_win_pct = mean(win_pct))`. In pandas, we group and aggregate using `.groupby()`. **Notice** that groupby is one word in Python and not separated with and '_'. 
 
-Next we want to compare conferences. **Important Note:** this dataset is during 2023 which was the year where many schools switched conferences or were in the process so conference alignment does look different today. Let's see which conference has the highest win percentage.
+**Important Note:** this dataset is during 2023 which was the year where many schools switched conferences or were in the process so conference alignment does look different today. 
 
 ```{python}
 conference_summary = (
@@ -127,9 +142,13 @@ conference_summary = (
 conference_summary
 ```
 
-We can see that the SEC is the top conference, in terms of win percentage. This is not the most accurate or best way to evaluate top conference but it can be used as a piece of an analysis. We will not analyze other metrics to evaluate the best conference. Instead, let's plot the analysis we have done!
+Setting `as_index = False` keeps `"confernce"` as a regular column rather than promoting it into the DataFrame's row index, mimicking the tidy table format in R.
 
-Below we plot these top 15 teams.
+## Visualizing Results
+
+In R, `ggplot2` builds plots additively with `+` layers. 
+
+Conveniently, pandas DataFrames can direcrtly generate `matplotlib` chars using their built in `.plot` method:
 ```{python}
 #| fig-alt: "A bar plot of the 15 top teams of 2023 based on win percentage, in descending order."
 top_teams_plot = top_15_teams.sort_values("win_pct").plot.barh(
@@ -143,9 +162,8 @@ top_teams_plot.set_xlabel("Win Percentage")
 top_teams_plot.set_ylabel("Team")
 ```
 
-We can see that all of our top 15 teams are over 0.5 win percentage which would make sense for top teams. It is also important to see that there are many ties in the data since generally teams play the same amount of games each season leading to the percentages being the same. 
+Let's do the same for the conference averages:
 
-Next let's look at the top conferences plot.
 ```{python}
 #| fig-alt: "A bar plot showing the average college football win percentage by conference in descending order for 2023."
 conferences = conference_summary.sort_values("win_pct", ascending = False).plot.bar(
@@ -159,33 +177,38 @@ conferences.set_xlabel("Conference")
 conferences.set_ylabel("Win Percentage")
 ```
 
-This is just a nice way of visually comparing conferences average win percentages. 
+Unlike `ggplot2`'s use of grammar layers, `matplotlib` operates via an Object-Oriented interface. When you call `.plot()`, pandas returns an `Axes` object (named here as `top_teams_plot` or `conferences`), and we configure labels, titles, and layout by calling methods on that axis. This is pretty similar in style to how base R plotting works. 
 
-Here we see that `matplotlib` is structured differently than a `ggplot`. `matplotlib` actually works a little bit closer to base R plotting. In `ggplot`, we use the `+` to add different elements of a plot. In base R you start a plot and then can add things to the plot after the plot is intitialized. This is the same idea for `matplotlib`. 
+---
 
-## Common Syntax Differences
-This is not an exhaustive list of all syntax differences between the two languages, but this is a list of some of the more common ones I have ran into while switching from R to Python. 
+## Common Syntax Pitfalls When Switching Languages
+Beyond the worked example, here are some of the most frequent syntax hurdles encountered when switching from R to Python.
 
-### Booleans
-In R, for booleans we capitalize the whole word (i.e. `TRUE`). In Python, we only capitalize the first letter (i.e. `True`). 
+### 1. Booleans and Case Sensitivity
+In R, for booleans we capitalize the whole word (i.e. `TRUE`). In Python, we only capitalize the first letter (i.e. `True`). Typing `TRUE` in Python triggers a `NameError: name 'TRUE' is not defined`.
 
-### Indexing
-R has index starting at 1 while Python is indexed starting at 0. This is crucial to remember when trying to access elements of vectors.
-Ex: `vec[1:5]` pulls the 1,2,3,4,5 elements in R. `vec[0:5]` will pull the first 5 elements (0, 1, 2, 3, 4) in python.
+### 2. 0-Based vs. 1-Based Indexing
+R begins indexing at 1, and slicing includes both boundaries: `vec[1:5]` returns elements 1, 2, 3, 4, and 5. Python uses 0-based indexing and excludes the upper bound: `vec[0:5]` returns the first 5 elements (indices 0, 1, 2, 3, and 4). Remembering that Python counts from zero prevents off-by-one bugs.
 
-### Missing Value Checks
-In R, we use `is.na(df$column)` to check for NA's. In Python, we use `df[column].isna()`.
+### 3. Methods vs. Attributes (The Parentheses Trap)
+In R, everything is executed via a function call with parentheses (e.g., `dim(df)`, `names(df)`). In Python, objects store metadata as **attributes** accessed without parentheses.
+* `df.shape` (not `df.shape()`) returns `(rows, columns)` as a tuple.
+* `df['col'].dtype` (not `df['col'].dtype()` or `type()`) returns the column data type.
+* Methods that actively perform computations like `df.head()` or `df.describe()` require parentheses.
 
-### Methods vs. Attributes
-In R everything done to an object is done in a function. This includes checking dimensions and types for data. For example, `dim(df)` return the dimensions of the data and `typeof(df$col)` returns what data type a column is. In Python, these types of metadata are accessed without parentheses. For example, `df.shape` returns the shape of the data frame as a tuple and `df["col"].dtype` returns the data type of the column. 
+### 4. Vectorized Logic: Bitwise `&`, `|`, `~` vs. Scalar `and`, `or`, `not`
+This is arguably the most common error for transitioning students. In R, logical operators like `&`, `|`, and `!` are vectorized across entire columns by default.
 
-### Logic Negation
-In R we use `!` to negate (`if (!is.na(df$col)){}`). In python we use `not` (`if not df["col"].isna().any():`). We also see here the syntax for `if` statements and `for` loops.
+In Python:
+* `and`, `or`, and `not` evaluate whether an **entire container** as a single entity is truthy or falsy. If you run `df[(df['wins'] > 10) and (df['losses'] == 0)]`, Python halts with: `ValueError: The truth value of a Series is ambiguous`.
+* To filter element-wise across a pandas Series, you **must use bitwise operators**: `&` (AND), `|` (OR), and `~` (NOT).
+* Because bitwise operators have higher operator precedence than comparison operators (`>`, `<`), you **must wrap each condition in parentheses**:
+  ```python
+  # Correct pandas filtering syntax:
+  undefeated = football[(football["wins"] > 10) & (football["losses"] == 0)]
+  ```
 
-### Column Selection
-With `dplyr` in R we can use the `select` function. For example, `select(df, col1, col2)`. In Python we have to use a list of strings with double brackets. For example, `df[["col1", "col2"]]`
-
-### `for`, and `if`
+### 5. `for` Loops, and `if` Statements
 In R we construct a `for` loop by doing: 
 ```R
 for (variable in seq) { 
@@ -225,13 +248,21 @@ else:
 ## Cheat Sheet Guide
 | Operation | R (`dplyr`/ Base R) | Python (`pandas`) | Helpful Notes |
 | :--- | :---: | :---: | :--- |
-| Inspect types | `glimpse(df)` / `str(df)`| `df.info()` or `df.dtypes` | `.dtypes` has no parentheses |
-| Select columns | `select(df, a, b)` | `df[['a', 'b']]` | Requires double brackets `[[]]` |
-| Filter Rows | `filter(df, a > 5 & b < 10)` | `df[(df['a'] > 5) & (df['b'] < 10)]` | Must use `&` and warp conditions in `()` |
-| Range filter | `filter(between(a, 5, 10))` | `df[df['a'].between(5, 10)]` | Inclusive on both ends by default |
-| Distinct count | `n_distinct(df$col)` | `df['col'].nunique()` | Don't use `.count()` |
-| Frequency table | `count(df, col)` | `df['col'].value_counts()` | Returns counts per unique value |
+| **Inspect type*s* | `glimpse(df)` / `str(df)`| `df.info()` or `df.dtypes` | `.dtypes` has no parentheses |
+| **Select columns**| `select(df, a, b)` | `df[['a', 'b']]` | Requires double brackets `[[]]` |
+| **Filter Rows** | `filter(df, a > 5 & b < 10)` | `df[(df['a'] > 5) & (df['b'] < 10)]` | Must use `&` and wrap conditions in `()` |
+| **Range filter** | `filter(between(a, 5, 10))` | `df[df['a'].between(5, 10)]` | Inclusive on both ends by default |
+| **Distinct count** | `n_distinct(df$col)` | `df['col'].nunique()` | Don't use `.count()` |
+| **Frequency table** | `count(df, col)` | `df['col'].value_counts()` | Returns counts per unique value |
 : Common functions cheat sheet {#tbl-cheat_sheet}
 
 # Conclusion
-There is still more to learn if you are switching from R to Python, but hopefully this gives you a basic understanding of how to import and wrangle data before doing some EDA. Switching between languages can be tricky and I hope that the @tbl-cheat_sheet provides some syntax help for switching between the two languages. Good luck!
+Switching from R to Python can intially feel quite daunting, but once you internalize the object oriented structure (recognizing methods vs attributes and logical keywords), the syntax becomes second nature.
+
+### Your Turn
+To solidify these concepts, don't just read the code, try it yourself!
+1. Clone the repository or download the [2023 College Football dataset from Kaggle](https://www.kaggle.com/datasets/jeffgallini/college-football-team-stats-2019?resource=download&select=cfb23.csv). 
+2. Open a Quarto document and filter the teams in your favorite conferences that won at least 8 games.
+3. Calculate number of distinct conferences and teams in the dataset (hint `.nunique()`).
+
+Use the @tbl-cheat_sheet whenever you run into a syntax error. Happy Python coding!
