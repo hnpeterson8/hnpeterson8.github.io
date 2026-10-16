@@ -159,26 +159,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#how-to" id="toc-how-to" class="nav-link" data-scroll-target="#how-to">How To</a>
+  <li><a href="#how-to-a-worked-example-in-college-football" id="toc-how-to-a-worked-example-in-college-football" class="nav-link" data-scroll-target="#how-to-a-worked-example-in-college-football">How To: A Worked Example in College Football</a>
   <ul class="collapse">
-  <li><a href="#worked-example" id="toc-worked-example" class="nav-link" data-scroll-target="#worked-example">Worked Example</a>
+  <li><a href="#data-importing-and-inspection" id="toc-data-importing-and-inspection" class="nav-link" data-scroll-target="#data-importing-and-inspection">Data Importing and Inspection</a></li>
+  <li><a href="#data-cleaning-and-wrangling" id="toc-data-cleaning-and-wrangling" class="nav-link" data-scroll-target="#data-cleaning-and-wrangling">Data Cleaning and Wrangling</a>
   <ul class="collapse">
-  <li><a href="#data-importing-and-cleaning" id="toc-data-importing-and-cleaning" class="nav-link" data-scroll-target="#data-importing-and-cleaning">Data Importing and Cleaning</a></li>
-  <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">Analysis</a></li>
+  <li><a href="#exploratory-analysis-teams-and-conferences" id="toc-exploratory-analysis-teams-and-conferences" class="nav-link" data-scroll-target="#exploratory-analysis-teams-and-conferences">Exploratory Analysis: Teams and Conferences</a></li>
   </ul></li>
-  <li><a href="#common-syntax-differences" id="toc-common-syntax-differences" class="nav-link" data-scroll-target="#common-syntax-differences">Common Syntax Differences</a>
+  <li><a href="#visualizing-results" id="toc-visualizing-results" class="nav-link" data-scroll-target="#visualizing-results">Visualizing Results</a></li>
+  <li><a href="#common-syntax-pitfalls-when-switching-languages" id="toc-common-syntax-pitfalls-when-switching-languages" class="nav-link" data-scroll-target="#common-syntax-pitfalls-when-switching-languages">Common Syntax Pitfalls When Switching Languages</a>
   <ul class="collapse">
-  <li><a href="#booleans" id="toc-booleans" class="nav-link" data-scroll-target="#booleans">Booleans</a></li>
-  <li><a href="#indexing" id="toc-indexing" class="nav-link" data-scroll-target="#indexing">Indexing</a></li>
-  <li><a href="#missing-value-checks" id="toc-missing-value-checks" class="nav-link" data-scroll-target="#missing-value-checks">Missing Value Checks</a></li>
-  <li><a href="#methods-vs.-attributes" id="toc-methods-vs.-attributes" class="nav-link" data-scroll-target="#methods-vs.-attributes">Methods vs.&nbsp;Attributes</a></li>
-  <li><a href="#logic-negation" id="toc-logic-negation" class="nav-link" data-scroll-target="#logic-negation">Logic Negation</a></li>
-  <li><a href="#column-selection" id="toc-column-selection" class="nav-link" data-scroll-target="#column-selection">Column Selection</a></li>
-  <li><a href="#for-and-if" id="toc-for-and-if" class="nav-link" data-scroll-target="#for-and-if"><code>for</code>, and <code>if</code></a></li>
+  <li><a href="#booleans-and-case-sensitivity" id="toc-booleans-and-case-sensitivity" class="nav-link" data-scroll-target="#booleans-and-case-sensitivity">1. Booleans and Case Sensitivity</a></li>
+  <li><a href="#based-vs.-1-based-indexing" id="toc-based-vs.-1-based-indexing" class="nav-link" data-scroll-target="#based-vs.-1-based-indexing">2. 0-Based vs.&nbsp;1-Based Indexing</a></li>
+  <li><a href="#methods-vs.-attributes-the-parentheses-trap" id="toc-methods-vs.-attributes-the-parentheses-trap" class="nav-link" data-scroll-target="#methods-vs.-attributes-the-parentheses-trap">3. Methods vs.&nbsp;Attributes (The Parentheses Trap)</a></li>
+  <li><a href="#vectorized-logic-bitwise-vs.-scalar-and-or-not" id="toc-vectorized-logic-bitwise-vs.-scalar-and-or-not" class="nav-link" data-scroll-target="#vectorized-logic-bitwise-vs.-scalar-and-or-not">4. Vectorized Logic: Bitwise <code>&amp;</code>, <code>|</code>, <code>~</code> vs.&nbsp;Scalar <code>and</code>, <code>or</code>, <code>not</code></a></li>
+  <li><a href="#for-loops-and-if-statements" id="toc-for-loops-and-if-statements" class="nav-link" data-scroll-target="#for-loops-and-if-statements">5. <code>for</code> Loops, and <code>if</code> Statements</a></li>
   </ul></li>
   <li><a href="#cheat-sheet-guide" id="toc-cheat-sheet-guide" class="nav-link" data-scroll-target="#cheat-sheet-guide">Cheat Sheet Guide</a></li>
   </ul></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a>
+  <ul class="collapse">
+  <li><a href="#your-turn" id="toc-your-turn" class="nav-link" data-scroll-target="#your-turn">Your Turn</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -218,29 +220,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>Are you having a hard time switching from R to Python? Are the syntax errors making you crazy? Here is a step by step guide to help alleviate the frustration over syntax differences in R and Python.</p>
+<p>For many statistics students, we first learned R or did Python. Stat 250 taught us to love the <code>tidyverse</code> with its ease of data wrangling. It allowed us to use the pipes <code>|&gt;</code> and <code>%&gt;%</code> as well as the plain English functions <code>select()</code> and <code>filter()</code>. When we now need to learn Python, the switch can daunting and throw us some curveballs and many errors. Python keeps throwing <code>AttributeError</code> and <code>ValueError</code> at us and we do not know what to do. The challenge comes from the way Python and R handle data structures. Python handles data structures through an <strong>object-oriented</strong> lens as compared to R which handles data a <strong>functional</strong> lens. In R, functions work on data frames whereas in Python, DataFrames are objects with their own methods and attributes. This tutorial is here to bridge this gap. We will walk through importing, cleaning, and exploring a real-world sports dataset in pandas, work through the most frequent syntax stumbling blocks, provide a handy comparison table, and equip you to write your own clean Python code without syntax errors.</p>
 </section>
-<section id="how-to" class="level1">
-<h1>How To</h1>
-<p>In this section, we will walk through an example data set, see common syntax differences, and finish with a cheat sheet guide of functions in R and their Python counterpart.</p>
-<section id="worked-example" class="level2">
-<h2 class="anchored" data-anchor-id="worked-example">Worked Example</h2>
-<p>To practice the different syntax, we will work through an example using a data set of 2023 college football data. The data can be found in the GitHub repository data folder or on Kaggle at this <a href="https://www.kaggle.com/datasets/jeffgallini/college-football-team-stats-2019?resource=download&amp;select=cfb23.csv">link</a>.</p>
-<section id="data-importing-and-cleaning" class="level3">
-<h3 class="anchored" data-anchor-id="data-importing-and-cleaning">Data Importing and Cleaning</h3>
-<p>Below we simply are loading the data in. We start by importing the pandas package which is equivalent to loading in a library such as <code>tidyverse</code> in R. We then load the data set in using <code>pd.read_csv</code>.</p>
-<div id="d57448a0" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas (equivalent to loading in libraries in R)</span></span>
+<section id="how-to-a-worked-example-in-college-football" class="level1">
+<h1>How To: A Worked Example in College Football</h1>
+<p>To see how <code>pandas</code> compares to <code>tidyverse</code>, we will analyze a dataset of 2023 NCAA College Football statistics. The dataset is available in this project’s GitHub repository or can be downloaded from directly from <a href="https://www.kaggle.com/datasets/jeffgallini/college-football-team-stats-2019?resource=download&amp;select=cfb23.csv">Kaggle’s College Football Team Stats</a>.</p>
+<section id="data-importing-and-inspection" class="level2">
+<h2 class="anchored" data-anchor-id="data-importing-and-inspection">Data Importing and Inspection</h2>
+<p>In R, we start a session by calling <code>library(tidyverse)</code>. In Python, we import libraries explicitly and typically assign them standard abbreviations using <code>as</code>.</p>
+<div id="5f39749a" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import pandas for data manipulation</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># import matplotlib for plotting (like ggplot but isn't included in pandas)</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plot</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># loading in data</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># loading in data as a pandas DataFrame</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/cfb23.csv"</span>)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># check the head and tail of the data to make sure it loaded in correctly</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>data.head(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="1">
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># similar to head(data, 6) in R</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>data.head(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
 <div>
 
 
@@ -423,9 +423,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="4a2b4f82" class="cell" data-execution_count="2">
+<div id="59700de2" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data.tail(<span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="13">
 <div>
 
 
@@ -608,19 +608,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>After loading in the data, we want to check to make sure it was loaded in properly. We do this using <code>head</code> and <code>tail</code>. The syntax is just slightly different in Python as you can see above, however it is relatively similar.</p>
-<div id="ad1afdd9" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># shape of the data frame</span></span>
+<p>Notice the syntax pattern: rather than passing the dataset into a standalone function like <code>tail(data, 6)</code>, our DataFram <code>data</code> calls its own method <code>.tail(6)</code>.</p>
+<p>Next, let’s inspect the dimensions of the table.</p>
+<div id="de369775" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># returns the dimensions (rows, columns) of the df</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>(134, 152)</code></pre>
 </div>
 </div>
-<p><code>.shape</code> returns a tuple with dimensions of the pandas data frame. It is an attribute, not a function and that is why we don’t use <code>()</code>.</p>
-<div id="eabddebb" class="cell" data-execution_count="4">
+<p>Here is our first major conceptual difference: <code>.shape</code> does not take parenthenses <code>()</code>. In Python, <code>data.shape</code> is an <strong>attribute</strong>, not a <strong>method</strong>. Calling <code>data.shape()</code> will raise a <code>TypeError: 'tuple' object is not callable</code>.</p>
+<p>To check for missing values across all columns, we can chain two methods:</p>
+<div id="d69def6b" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># count number of na's for each variable</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>data.isna().<span class="bu">sum</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>Unnamed: 0                      0
 Off Rank                        0
 Team                            0
@@ -635,8 +637,14 @@ Avg Turnover Margin per Game    0
 Length: 152, dtype: int64</code></pre>
 </div>
 </div>
-<p>Next we want to start running an analysis. To do so we need to do a little bit of data cleaning. For this analysis we will focus on teams, conferences, and their win-loss record. The data luckily has all of this for us but not in the correct format. Like in R, we can use Regex to handle the data extraction. We will do this below to extract the conference from the team name (<code>Team</code>) and the win loss record (<code>Win-Loss</code>). The dataset also includes over 150 columns which are not needed for our analysis. Below we also subset the data so that we only see the columns we care about.</p>
-<div id="584fae15" class="cell" data-execution_count="5">
+<p>In R, we might write <code>colSums(is.na(data))</code>. In pandas, <code>.isna()</code> generates a boolean mask of <code>True</code> and <code>False</code> values, and <code>.sum()</code> adds them up along each column (<code>True</code> = 1 and <code>False</code> = 0).</p>
+</section>
+<section id="data-cleaning-and-wrangling" class="level2">
+<h2 class="anchored" data-anchor-id="data-cleaning-and-wrangling">Data Cleaning and Wrangling</h2>
+<p>Our raw data set contains 152 columns, most of which are not needed for our analysis. We want to be able to evaluate team and conference performance based on win percentages and conference affliation.</p>
+<p>However, there is not column for <code>conference</code> and instead the conference is embedded in the team column and wins and losses are grouped in the same column. Each come with unique formatting issues: 1. The conference is trapped inside the raw <code>Team</code> column wrapped in parentheses (e.g., <code>"Michigan (Big 10)</code>). 2. Wins and losses are stored together in the <code>Win-Loss</code> column as a string separated by a hyphen (e.g., <code>"15-0"</code>).</p>
+<p>Just like using <code>stringr</code> in R, pandas provides a vectorized <code>.str</code> attribute to perform regular expression extractions:</p>
+<div id="c8f1095e" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add the conference variable</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>data[<span class="st">"conference"</span>] <span class="op">=</span> (</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">"Team"</span>]</span>
@@ -669,11 +677,12 @@ Length: 152, dtype: int64</code></pre>
 <span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="co"># take all rows and just the columns in check_cols</span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>football <span class="op">=</span> data.loc[:, check_cols].copy()</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect head</span></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>football.head(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="co"># subset rows and columns using .loc and create a copy of the data.</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>football <span class="op">=</span> data.loc[:, check_cols].copy()</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect head</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>football.head(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
 <div>
 
 
@@ -741,10 +750,10 @@ Length: 152, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="3095e034" class="cell" data-execution_count="6">
+<div id="aaa5f868" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect tail</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>football.tail(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="17">
 <div>
 
 
@@ -812,17 +821,17 @@ Length: 152, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<p>As we can see, the conference and win-loss record was properly extracted and can now be used for an analysis!</p>
-</section>
-<section id="analysis" class="level3">
-<h3 class="anchored" data-anchor-id="analysis">Analysis</h3>
-<p>For our analysis we will look at the best teams and conferences based on win percentage. To start, let us look at which teams have the highest win percentage</p>
-<div id="a7b95a4a" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>top_10_teams <span class="op">=</span> football.nlargest(</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10</span>, <span class="st">"win_pct"</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>top_10_teams</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<p>In <code>dplyr</code>, we would write <code>select(data, Team, conference, wins, losses, win_pct)</code>. In pandas, column selection requires passing a Python list of strings enclosed in double brackets: <code>data[["col1", "col2"]]</code>.</p>
+<section id="exploratory-analysis-teams-and-conferences" class="level3">
+<h3 class="anchored" data-anchor-id="exploratory-analysis-teams-and-conferences">Exploratory Analysis: Teams and Conferences</h3>
+<p>Now that our data is tidy and ready to work with, let’s find the top-performing teams. In R, we would arrange by win percentage in descending order and then slice the top rows (<code>data |&gt; arrange(desc(win_pct)) |&gt; slice_head(n = 10)</code>). Pandas provides a convenient shortcut: <code>.nlargest()</code>.</p>
+<div id="30b92048" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># retrieve the top 10 teams by win percentage</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>top_10_teams <span class="op">=</span> football.nlargest(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10</span>, <span class="st">"win_pct"</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>top_10_teams</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
 <div>
 
 
@@ -935,16 +944,15 @@ Length: 152, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<p>We see that we have 1 undefeated team in 2023 (Michigan). A big difference from how this works in R, is that you use <code>.nlargest</code> rather than sorting (<code>sort</code>) in descending order and then just printing only the first 10. This way is much simpler and cleaner.</p>
-<p>Because of the way the season works, there is a high chance there are ties in the win percentage. Python will just grab the first one it finds. Let’s extend the list of top teams.</p>
-<div id="6837a4a0" class="cell" data-execution_count="8">
+<p>Because college football seasons feature relatively few games, win percentages often result in multi-team ties. Notice that Michigan was the sole undefeated team (1.0), but positions 3 through 10 we see instances of shared <code>win_pct</code>. By default, <code>.nlargest()</code> keeps the first occurrences (<code>keep='first'</code>). Let’s expand our query to 15 teams to see the breadth of the tie:</p>
+<div id="1df52f3c" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the top 15 teams</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>top_15_teams <span class="op">=</span> football.nlargest(</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">15</span>, <span class="st">"win_pct"</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>top_15_teams</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="19">
 <div>
 
 
@@ -1102,9 +1110,9 @@ Length: 152, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<p>Now that we have the top 15 teams, we see that there were three/four way ties for all of the last 13. It is important to extend the list of top teams since there was a tie and otherwise would have been missed. There could be more ties further down but for sake of space we will keep it at 15.</p>
-<p>Next we want to compare conferences. <strong>Important Note:</strong> this dataset is during 2023 which was the year where many schools switched conferences or were in the process so conference alignment does look different today. Let’s see which conference has the highest win percentage.</p>
-<div id="f46aba2b" class="cell" data-execution_count="9">
+<p>Next, let’s aggregate performance by confernece. In R, we use <code>group_by(conference) |&gt; summarize(mean_win_pct = mean(win_pct))</code>. In pandas, we group and aggregate using <code>.groupby()</code>. <strong>Notice</strong> that groupby is one word in Python and not separated with and ’_’.</p>
+<p><strong>Important Note:</strong> this dataset is during 2023 which was the year where many schools switched conferences or were in the process so conference alignment does look different today.</p>
+<div id="efb5ca25" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>conference_summary <span class="op">=</span> (</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    football.groupby(<span class="st">"conference"</span>, as_index<span class="op">=</span><span class="va">False</span>)[<span class="st">"win_pct"</span>]</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    .mean()</span>
@@ -1112,7 +1120,7 @@ Length: 152, dtype: int64</code></pre>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>conference_summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="20">
 <div>
 
 
@@ -1186,9 +1194,14 @@ Length: 152, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<p>We can see that the SEC is the top conference, in terms of win percentage. This is not the most accurate or best way to evaluate top conference but it can be used as a piece of an analysis. We will not analyze other metrics to evaluate the best conference. Instead, let’s plot the analysis we have done!</p>
-<p>Below we plot these top 15 teams.</p>
-<div id="690d43ee" class="cell" data-execution_count="10">
+<p>Setting <code>as_index = False</code> keeps <code>"confernce"</code> as a regular column rather than promoting it into the DataFrame’s row index, mimicking the tidy table format in R.</p>
+</section>
+</section>
+<section id="visualizing-results" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-results">Visualizing Results</h2>
+<p>In R, <code>ggplot2</code> builds plots additively with <code>+</code> layers.</p>
+<p>Conveniently, pandas DataFrames can direcrtly generate <code>matplotlib</code> chars using their built in <code>.plot</code> method:</p>
+<div id="68f90d78" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>top_teams_plot <span class="op">=</span> top_15_teams.sort_values(<span class="st">"win_pct"</span>).plot.barh(</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="st">"Team"</span>,</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="st">"win_pct"</span>,</span>
@@ -1206,9 +1219,8 @@ Length: 152, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<p>We can see that all of our top 15 teams are over 0.5 win percentage which would make sense for top teams. It is also important to see that there are many ties in the data since generally teams play the same amount of games each season leading to the percentages being the same.</p>
-<p>Next let’s look at the top conferences plot.</p>
-<div id="9d2a8a28" class="cell" data-execution_count="11">
+<p>Let’s do the same for the conference averages:</p>
+<div id="fbf369cd" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>conferences <span class="op">=</span> conference_summary.sort_values(<span class="st">"win_pct"</span>, ascending <span class="op">=</span> <span class="va">False</span>).plot.bar(</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> <span class="st">"conference"</span>,</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> <span class="st">"win_pct"</span>,</span>
@@ -1226,39 +1238,31 @@ Length: 152, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<p>This is just a nice way of visually comparing conferences average win percentages.</p>
-<p>Here we see that <code>matplotlib</code> is structured differently than a <code>ggplot</code>. <code>matplotlib</code> actually works a little bit closer to base R plotting. In <code>ggplot</code>, we use the <code>+</code> to add different elements of a plot. In base R you start a plot and then can add things to the plot after the plot is intitialized. This is the same idea for <code>matplotlib</code>.</p>
+<p>Unlike <code>ggplot2</code>’s use of grammar layers, <code>matplotlib</code> operates via an Object-Oriented interface. When you call <code>.plot()</code>, pandas returns an <code>Axes</code> object (named here as <code>top_teams_plot</code> or <code>conferences</code>), and we configure labels, titles, and layout by calling methods on that axis. This is pretty similar in style to how base R plotting works.</p>
+<hr>
 </section>
+<section id="common-syntax-pitfalls-when-switching-languages" class="level2">
+<h2 class="anchored" data-anchor-id="common-syntax-pitfalls-when-switching-languages">Common Syntax Pitfalls When Switching Languages</h2>
+<p>Beyond the worked example, here are some of the most frequent syntax hurdles encountered when switching from R to Python.</p>
+<section id="booleans-and-case-sensitivity" class="level3">
+<h3 class="anchored" data-anchor-id="booleans-and-case-sensitivity">1. Booleans and Case Sensitivity</h3>
+<p>In R, for booleans we capitalize the whole word (i.e.&nbsp;<code>TRUE</code>). In Python, we only capitalize the first letter (i.e.&nbsp;<code>True</code>). Typing <code>TRUE</code> in Python triggers a <code>NameError: name 'TRUE' is not defined</code>.</p>
 </section>
-<section id="common-syntax-differences" class="level2">
-<h2 class="anchored" data-anchor-id="common-syntax-differences">Common Syntax Differences</h2>
-<p>This is not an exhaustive list of all syntax differences between the two languages, but this is a list of some of the more common ones I have ran into while switching from R to Python.</p>
-<section id="booleans" class="level3">
-<h3 class="anchored" data-anchor-id="booleans">Booleans</h3>
-<p>In R, for booleans we capitalize the whole word (i.e.&nbsp;<code>TRUE</code>). In Python, we only capitalize the first letter (i.e.&nbsp;<code>True</code>).</p>
+<section id="based-vs.-1-based-indexing" class="level3">
+<h3 class="anchored" data-anchor-id="based-vs.-1-based-indexing">2. 0-Based vs.&nbsp;1-Based Indexing</h3>
+<p>R begins indexing at 1, and slicing includes both boundaries: <code>vec[1:5]</code> returns elements 1, 2, 3, 4, and 5. Python uses 0-based indexing and excludes the upper bound: <code>vec[0:5]</code> returns the first 5 elements (indices 0, 1, 2, 3, and 4). Remembering that Python counts from zero prevents off-by-one bugs.</p>
 </section>
-<section id="indexing" class="level3">
-<h3 class="anchored" data-anchor-id="indexing">Indexing</h3>
-<p>R has index starting at 1 while Python is indexed starting at 0. This is crucial to remember when trying to access elements of vectors. Ex: <code>vec[1:5]</code> pulls the 1,2,3,4,5 elements in R. <code>vec[0:5]</code> will pull the first 5 elements (0, 1, 2, 3, 4) in python.</p>
+<section id="methods-vs.-attributes-the-parentheses-trap" class="level3">
+<h3 class="anchored" data-anchor-id="methods-vs.-attributes-the-parentheses-trap">3. Methods vs.&nbsp;Attributes (The Parentheses Trap)</h3>
+<p>In R, everything is executed via a function call with parentheses (e.g., <code>dim(df)</code>, <code>names(df)</code>). In Python, objects store metadata as <strong>attributes</strong> accessed without parentheses. * <code>df.shape</code> (not <code>df.shape()</code>) returns <code>(rows, columns)</code> as a tuple. * <code>df['col'].dtype</code> (not <code>df['col'].dtype()</code> or <code>type()</code>) returns the column data type. * Methods that actively perform computations like <code>df.head()</code> or <code>df.describe()</code> require parentheses.</p>
 </section>
-<section id="missing-value-checks" class="level3">
-<h3 class="anchored" data-anchor-id="missing-value-checks">Missing Value Checks</h3>
-<p>In R, we use <code>is.na(df$column)</code> to check for NA’s. In Python, we use <code>df[column].isna()</code>.</p>
+<section id="vectorized-logic-bitwise-vs.-scalar-and-or-not" class="level3">
+<h3 class="anchored" data-anchor-id="vectorized-logic-bitwise-vs.-scalar-and-or-not">4. Vectorized Logic: Bitwise <code>&amp;</code>, <code>|</code>, <code>~</code> vs.&nbsp;Scalar <code>and</code>, <code>or</code>, <code>not</code></h3>
+<p>This is arguably the most common error for transitioning students. In R, logical operators like <code>&amp;</code>, <code>|</code>, and <code>!</code> are vectorized across entire columns by default.</p>
+<p>In Python: * <code>and</code>, <code>or</code>, and <code>not</code> evaluate whether an <strong>entire container</strong> as a single entity is truthy or falsy. If you run <code>df[(df['wins'] &gt; 10) and (df['losses'] == 0)]</code>, Python halts with: <code>ValueError: The truth value of a Series is ambiguous</code>. * To filter element-wise across a pandas Series, you <strong>must use bitwise operators</strong>: <code>&amp;</code> (AND), <code>|</code> (OR), and <code>~</code> (NOT). * Because bitwise operators have higher operator precedence than comparison operators (<code>&gt;</code>, <code>&lt;</code>), you <strong>must wrap each condition in parentheses</strong>: <code>python   # Correct pandas filtering syntax:   undefeated = football[(football["wins"] &gt; 10) &amp; (football["losses"] == 0)]</code></p>
 </section>
-<section id="methods-vs.-attributes" class="level3">
-<h3 class="anchored" data-anchor-id="methods-vs.-attributes">Methods vs.&nbsp;Attributes</h3>
-<p>In R everything done to an object is done in a function. This includes checking dimensions and types for data. For example, <code>dim(df)</code> return the dimensions of the data and <code>typeof(df$col)</code> returns what data type a column is. In Python, these types of metadata are accessed without parentheses. For example, <code>df.shape</code> returns the shape of the data frame as a tuple and <code>df["col"].dtype</code> returns the data type of the column.</p>
-</section>
-<section id="logic-negation" class="level3">
-<h3 class="anchored" data-anchor-id="logic-negation">Logic Negation</h3>
-<p>In R we use <code>!</code> to negate (<code>if (!is.na(df$col)){}</code>). In python we use <code>not</code> (<code>if not df["col"].isna().any():</code>). We also see here the syntax for <code>if</code> statements and <code>for</code> loops.</p>
-</section>
-<section id="column-selection" class="level3">
-<h3 class="anchored" data-anchor-id="column-selection">Column Selection</h3>
-<p>With <code>dplyr</code> in R we can use the <code>select</code> function. For example, <code>select(df, col1, col2)</code>. In Python we have to use a list of strings with double brackets. For example, <code>df[["col1", "col2"]]</code></p>
-</section>
-<section id="for-and-if" class="level3">
-<h3 class="anchored" data-anchor-id="for-and-if"><code>for</code>, and <code>if</code></h3>
+<section id="for-loops-and-if-statements" class="level3">
+<h3 class="anchored" data-anchor-id="for-loops-and-if-statements">5. <code>for</code> Loops, and <code>if</code> Statements</h3>
 <p>In R we construct a <code>for</code> loop by doing:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (variable <span class="cf">in</span> seq) { </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">#code for each iteration</span></span>
@@ -1309,37 +1313,37 @@ Table&nbsp;1: Common functions cheat sheet
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Inspect types</td>
+<td style="text-align: left;"><strong>Inspect types</strong></td>
 <td style="text-align: center;"><code>glimpse(df)</code> / <code>str(df)</code></td>
 <td style="text-align: center;"><code>df.info()</code> or <code>df.dtypes</code></td>
 <td style="text-align: left;"><code>.dtypes</code> has no parentheses</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Select columns</td>
+<td style="text-align: left;"><strong>Select columns</strong></td>
 <td style="text-align: center;"><code>select(df, a, b)</code></td>
 <td style="text-align: center;"><code>df[['a', 'b']]</code></td>
 <td style="text-align: left;">Requires double brackets <code>[[]]</code></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Filter Rows</td>
+<td style="text-align: left;"><strong>Filter Rows</strong></td>
 <td style="text-align: center;"><code>filter(df, a &gt; 5 &amp; b &lt; 10)</code></td>
 <td style="text-align: center;"><code>df[(df['a'] &gt; 5) &amp; (df['b'] &lt; 10)]</code></td>
-<td style="text-align: left;">Must use <code>&amp;</code> and warp conditions in <code>()</code></td>
+<td style="text-align: left;">Must use <code>&amp;</code> and wrap conditions in <code>()</code></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Range filter</td>
+<td style="text-align: left;"><strong>Range filter</strong></td>
 <td style="text-align: center;"><code>filter(between(a, 5, 10))</code></td>
 <td style="text-align: center;"><code>df[df['a'].between(5, 10)]</code></td>
 <td style="text-align: left;">Inclusive on both ends by default</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Distinct count</td>
+<td style="text-align: left;"><strong>Distinct count</strong></td>
 <td style="text-align: center;"><code>n_distinct(df$col)</code></td>
 <td style="text-align: center;"><code>df['col'].nunique()</code></td>
 <td style="text-align: left;">Don’t use <code>.count()</code></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Frequency table</td>
+<td style="text-align: left;"><strong>Frequency table</strong></td>
 <td style="text-align: center;"><code>count(df, col)</code></td>
 <td style="text-align: center;"><code>df['col'].value_counts()</code></td>
 <td style="text-align: left;">Returns counts per unique value</td>
@@ -1353,9 +1357,14 @@ Table&nbsp;1: Common functions cheat sheet
 </section>
 <section id="conclusion" class="level1">
 <h1>Conclusion</h1>
-<p>There is still more to learn if you are switching from R to Python, but hopefully this gives you a basic understanding of how to import and wrangle data before doing some EDA. Switching between languages can be tricky and I hope that the <a href="#tbl-cheat_sheet" class="quarto-xref">Table&nbsp;1</a> provides some syntax help for switching between the two languages. Good luck!</p>
+<p>Switching from R to Python can intially feel quite daunting, but once you internalize the object oriented structure (recognizing methods vs attributes and logical keywords), the syntax becomes second nature.</p>
+<section id="your-turn" class="level3">
+<h3 class="anchored" data-anchor-id="your-turn">Your Turn</h3>
+<p>To solidify these concepts, don’t just read the code, try it yourself! 1. Clone the repository or download the <a href="https://www.kaggle.com/datasets/jeffgallini/college-football-team-stats-2019?resource=download&amp;select=cfb23.csv">2023 College Football dataset from Kaggle</a>. 2. Open a Quarto document and filter the teams in your favorite conferences that won at least 8 games. 3. Calculate number of distinct conferences and teams in the dataset (hint <code>.nunique()</code>).</p>
+<p>Use the <a href="#tbl-cheat_sheet" class="quarto-xref">Table&nbsp;1</a> whenever you run into a syntax error. Happy Python coding!</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

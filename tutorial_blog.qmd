@@ -248,7 +248,7 @@ else:
 ## Cheat Sheet Guide
 | Operation | R (`dplyr`/ Base R) | Python (`pandas`) | Helpful Notes |
 | :--- | :---: | :---: | :--- |
-| **Inspect type*s* | `glimpse(df)` / `str(df)`| `df.info()` or `df.dtypes` | `.dtypes` has no parentheses |
+| **Inspect types** | `glimpse(df)` / `str(df)`| `df.info()` or `df.dtypes` | `.dtypes` has no parentheses |
 | **Select columns**| `select(df, a, b)` | `df[['a', 'b']]` | Requires double brackets `[[]]` |
 | **Filter Rows** | `filter(df, a > 5 & b < 10)` | `df[(df['a'] > 5) & (df['b'] < 10)]` | Must use `&` and wrap conditions in `()` |
 | **Range filter** | `filter(between(a, 5, 10))` | `df[df['a'].between(5, 10)]` | Inclusive on both ends by default |
