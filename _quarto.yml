@@ -10,6 +10,8 @@ website:
         text: Home
       - href: tutorial_blog.qmd
         text: Tutorial Blog
+      - href: data_acquisiton_blog.qmd
+        text: Data Acquisition Blog
 
 format:
   html:

@@ -1,0 +1,30 @@
+---
+title: "Data Acquisition: A How to Use College Football APIs"
+author: "Hailey Peterson"
+date: last-modified
+format: html
+---
+# Introduction - Motivation
+Every year college football teams a few hundred thousand dollars to millions on recruiting. This number has only gotten higher as NIL laws of changed as well as being able to legally pay athletes. But does this extra expense really pay off? Does the increase in recruiting power really lead to more on field success? To look at this question we pull data from a [college football data API](collegefootballdata.com). To answer this question we will use recruiting rank and win percentage. 
+
+## Ethical Consideration
+Before webscraping it is always important to read the terms of service to understand what data can and cannot be accessed and if the data is able to be published to a GitHub repository. In this case, getting the API is free and immediate, however, the company does still want web scraping to come from this and to be able to control who has access to the data and who does not. For this specific API, they request that the data is not published on public repositories. Thus, here we will walk through the steps for you obtain your own API key and then pull your own data. Please be respectful when using this API and follow the terms and service.
+
+# College Football API Access and Use
+To begin, go to [CollegeFootballData API](collegefootballdata.com) where you can submit your email to get your personalized API key. The email should come through immediately. Once you have your API key you can begin!
+
+To follow along with more in-depth code use this [GitHub repository](https://github.com/hnpeterson8/data_acquisition_blog_code). Begin with cloning the repo and then we can start pulling the data from the API
+
+To ensure that we do not publish our API key to GitHub, put the following code in your `.env` and ensure that `.env` is in your `.gitignore`: `API_KEY = {your_api_key}`. Next, we use the `requests` package to pull the data. 
+
+```{python}
+import pandas as pd
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# load in the data
+data = pd.read_csv("data/college_football.csv")
+
+
+``` 

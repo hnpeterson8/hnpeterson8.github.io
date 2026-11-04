@@ -221,3 +221,9 @@ __marimo__/
 
 /.quarto/
 **/*.quarto_ipynb
+
+# virtual environments
+.env
+
+# data from API
+data/college_football.csv
