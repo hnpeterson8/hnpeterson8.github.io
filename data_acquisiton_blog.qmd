@@ -15,8 +15,32 @@ To begin, go to [CollegeFootballData API](collegefootballdata.com) where you can
 
 To follow along with more in-depth code use this [GitHub repository](https://github.com/hnpeterson8/data_acquisition_blog_code). Begin with cloning the repo and then we can start pulling the data from the API
 
-To ensure that we do not publish our API key to GitHub, put the following code in your `.env` and ensure that `.env` is in your `.gitignore`: `API_KEY = {your_api_key}`. Next, we use the `requests` package to pull the data. 
+To ensure that we do not publish our API key to GitHub, put the following code in your `.env` and ensure that `.env` is in your `.gitignore`: `API_KEY = {your_api_key}`. Next, using the `requests` library, queried the `/recruiting/teams` and `/records` endpoints for seasons 2018 through 2024, looping through each year with a polite 0.5-second delay. The resulting JSON responses were flattened into pandas DataFrames using `pd.json_normalize()` and merged on team name and season. 
 
+```python
+import os
+import pandas as pd
+import requests
+
+# Load API key securely from environment variables
+api_key = os.getenv("CFBD_API_KEY")
+headers = {"Authorization": f"Bearer {api_key}"}
+
+# Request recruiting data for a target season
+url = "[https://api.collegefootballdata.com/recruiting/teams](https://api.collegefootballdata.com/recruiting/teams)"
+params = {"year": 2023}
+
+response = requests.get(url, headers=headers, params=params)
+
+if response.status_code == 200:
+    # Flatten nested JSON into a clean tabular DataFrame
+    recruiting_df = pd.json_normalize(response.json())
+    print(recruiting_df[["team", "points", "rank"]].head())
+```
+In the full pipeline script (available in the project repository - file `acquire_data.qmd`), this request is wrapped inside a loop over seasons 2018 through 2024, paired with a polite `time.sleep(0.5)` delay between requests. A matching loop pulls win-loss records from the `/records` endpoint. This dataset does not have a variable that has the win percentage but it can be easily calculated as `wins/games` or the number of wins divided by the number of games played. Some basic data cleaning is necessary to ensure that variable naming convention is the same across the two datasets so that merging can happen properly. To finish creating the final dataset, we use `pd.concat()` to join the datasets on `['team', 'year']`.
+
+
+# EDA
 ```{python}
 import pandas as pd
 import numpy as np
