@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Home",
     "section": "",
-    "text": "Welcome to my website!\n\nRead myTutorial Blog page\nRead my Data Acquisition Blog"
+    "text": "Welcome to my website!\n\nRead my Tutorial Blog page\nRead my Data Acquisition Blog"
   },
   {
     "objectID": "tutorial_blog.html#core-differences-between-r-and-python-syntax",
@@ -75,5 +75,47 @@
     "title": "Tidyverse to Pandas: A How to Guide to Transition from R to Python",
     "section": "Common Syntax Pitfalls When Switching Languages",
     "text": "Common Syntax Pitfalls When Switching Languages\nBeyond the worked example, here are some of the most frequent syntax hurdles encountered when switching from R to Python.\n\n1. Booleans and Case Sensitivity\nIn R, for booleans we capitalize the whole word (i.e. TRUE). In Python, we only capitalize the first letter (i.e. True). Typing TRUE in Python triggers a NameError: name 'TRUE' is not defined.\n\n\n2. 0-Based vs. 1-Based Indexing\nR begins indexing at 1, and slicing includes both boundaries: vec[1:5] returns elements 1, 2, 3, 4, and 5. Python uses 0-based indexing and excludes the upper bound: vec[0:5] returns the first 5 elements (indices 0, 1, 2, 3, and 4). Remembering that Python counts from zero prevents off-by-one bugs.\n\n\n3. Methods vs. Attributes (The Parentheses Trap)\nIn R, everything is executed via a function call with parentheses (e.g., dim(df), names(df)). In Python, objects store metadata as attributes accessed without parentheses.\n\ndf.shape (not df.shape()) returns (rows, columns) as a tuple.\ndf['col'].dtype (not df['col'].dtype() or type()) returns the column data type.\nMethods that actively perform computations like df.head() or df.describe() require parentheses.\n\n\n\n4. Vectorized Logic: Bitwise &, |, ~ vs. Scalar and, or, not\nThis is arguably the most common error for transitioning students. In R, logical operators like &, |, and ! are vectorized across entire columns by default.\nIn Python:\n\nand, or, and not evaluate whether an entire container as a single entity is truthy or falsy. If you run df[(df['wins'] &gt; 10) and (df['losses'] == 0)], Python halts with: ValueError: The truth value of a Series is ambiguous.\nTo filter element-wise across a pandas Series, you must use bitwise operators: & (AND), | (OR), and ~ (NOT).\nBecause bitwise operators have higher operator precedence than comparison operators (&gt;, &lt;), you must wrap each condition in parentheses:\n# Correct pandas filtering syntax:\nundefeated = football[(football[\"wins\"] &gt; 10) & (football[\"losses\"] == 0)]\n\n\n\n5. for Loops, and if Statements\nIn R we construct a for loop by doing:\nfor (variable in seq) { \n    #code for each iteration\n}\nIn Python we construct a for loop by doing:\nfor variable in iterable:\n    #code for each iteration\n    # make sure it is idented\nIn R we construct an if statment by doing:\nif (condition){\n    # whatever you want to happen\n} else if (condition 2){\n    # whatever you want to happen\n} else{\n    # whatever you want to happen\n}\nIn Python we construct an if statment by doing:\nif condition: \n    # indented whatever you want to happen\nelif condition: \n    # indented whatever you want to happen\nelse: \n    # indented whatever you want to happen"
+  },
+  {
+    "objectID": "data_acquisiton_blog.html",
+    "href": "data_acquisiton_blog.html",
+    "title": "Data Acquisition: A How to Use College Football APIs",
+    "section": "",
+    "text": "Every year college football teams a few hundred thousand dollars to millions on recruiting. This number has only gotten higher as NIL laws of changed as well as being able to legally pay athletes. But does this extra expense really pay off? Does the increase in recruiting power really lead to more on field success? To look at this question we pull data from a college football data API. To answer this question we will use recruiting rank and win percentage.\n\n\nBefore webscraping it is always important to read the terms of service to understand what data can and cannot be accessed and if the data is able to be published to a GitHub repository. In this case, getting the API is free and immediate, however, the company does still want web scraping to come from this and to be able to control who has access to the data and who does not. For this specific API, they request that the data is not published on public repositories. Thus, here we will walk through the steps for you obtain your own API key and then pull your own data. Please be respectful when using this API and follow the terms and service."
+  },
+  {
+    "objectID": "data_acquisiton_blog.html#ethical-consideration",
+    "href": "data_acquisiton_blog.html#ethical-consideration",
+    "title": "Data Acquisition: A How to Use College Football APIs",
+    "section": "",
+    "text": "Before webscraping it is always important to read the terms of service to understand what data can and cannot be accessed and if the data is able to be published to a GitHub repository. In this case, getting the API is free and immediate, however, the company does still want web scraping to come from this and to be able to control who has access to the data and who does not. For this specific API, they request that the data is not published on public repositories. Thus, here we will walk through the steps for you obtain your own API key and then pull your own data. Please be respectful when using this API and follow the terms and service."
+  },
+  {
+    "objectID": "data_acquisiton_blog.html#scatterplot",
+    "href": "data_acquisiton_blog.html#scatterplot",
+    "title": "Data Acquisition: A How to Use College Football APIs",
+    "section": "Scatterplot",
+    "text": "Scatterplot\n\nimport pandas as pd\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\n# load in the data\ndata = pd.read_csv(\"data/college_football.csv\")\n\n# plot of win pct vs recruiting rank\nfig, ax = plt.subplots()\nax.scatter(data[\"win_pct\"], data[\"recruiting_rank\"], c = data[\"year\"], alpha = 0.65)\nax.set(xlabel=\"Win Percentage\",\n       ylabel=\"Recruiting Rank\", title=\"Win-Percentage vs. Recruiting Rank\")\nplt.show()\n\n\n\n\n\n\n\n\nThis graph shows the win percentage vs recruiting rank and is colored by year. It is hard to see any real differences by year. In the EDA file, I break up this graph by year to be able see differences in trends. The graph does show a slight negative correlation between the two variables. Lets explore this next."
+  },
+  {
+    "objectID": "data_acquisiton_blog.html#correlation-by-year",
+    "href": "data_acquisiton_blog.html#correlation-by-year",
+    "title": "Data Acquisition: A How to Use College Football APIs",
+    "section": "Correlation By Year",
+    "text": "Correlation By Year\n\n# correlation between win percentage and recruiting rank\n# in theory we should see a negative correlation (higher rank corresponds to lower number)\n## see if there is difference by year\nyear_corr = (\n    data.groupby(\"year\")\n    .apply(\n        lambda g: g[\"win_pct\"].corr(g[\"recruiting_rank\"]),\n        include_groups=False,\n    )\n    .reset_index(name=\"corr\")\n)\n# print output\nprint(year_corr)\n\n   year      corr\n0  2018 -0.227255\n1  2019 -0.186935\n2  2020 -0.100834\n3  2021 -0.221264\n4  2022 -0.115213\n5  2023 -0.220487\n6  2024 -0.164641\n\n\nBased on the year by year correlations, each year sees a weak negative correlation. 2020 sees the weakest correlation but that could be due to this being the Covid year and so the seasons were shorter and structured differently than other years."
+  },
+  {
+    "objectID": "data_acquisiton_blog.html#correlation-by-conference",
+    "href": "data_acquisiton_blog.html#correlation-by-conference",
+    "title": "Data Acquisition: A How to Use College Football APIs",
+    "section": "Correlation By Conference",
+    "text": "Correlation By Conference\nCorrelation by year tells us generally which years had better success from recruiting, but it does not tell us the full story. What if we want to know are certain conferences better at turning recruitment into success? Below we look at the correlation between win percentage and recruiting rank based on conferences.\n\n## look how it works within conferences\nconf_corr = (\n    data.groupby(\"conference\")\n    .apply(\n        lambda g: g[\"win_pct\"].corr(g[\"recruiting_rank\"]),\n        include_groups=False,\n    )\n    .reset_index(name=\"corr\")\n)\n\n# print output\nprint(conf_corr)\n\n           conference      corr\n0                 ACC -0.187669\n1                 AWC  0.755929\n2   American Athletic -0.331176\n3        Atlantic Sun  0.616705\n4              Big 12 -0.385964\n5             Big Sky  0.037454\n6           Big South -0.303120\n7       Big South-OVC  0.573773\n8             Big Ten -0.457007\n9                 CAA -0.291132\n10   Coastal Athletic  0.130414\n11     Conference USA -0.078195\n12   FBS Independents -0.570091\n13   FCS Independents  0.187124\n14              GLIAC -0.709571\n15                Ivy -0.391074\n16               MEAC  0.425694\n17               MVFC -0.062702\n18       Mid-American -0.056047\n19      Mountain West -0.213046\n20                NEC -0.796666\n21                OVC  0.208055\n22             Pac-12 -0.264368\n23            Patriot -0.083129\n24            Pioneer -0.437985\n25                SEC -0.540961\n26               SWAC -0.217015\n27           Southern -0.001212\n28          Southland -0.135599\n29           Sun Belt -0.175945\n30                UAC  0.048077\n31   Western Athletic  0.116991\n\n\nAs can be seen, conferences like the SEC, NEC (Northeast conference), FCS Independents (not technically a conference, but grouped together as one), and Big 10 have much stronger correlations of -0.5 or lower (closer to -1). These conferences are getting better results likely related to their recruiting rank, indicating that they are better at turning recruitment into success. While some conferences like AWC, Atlantic Sun, and OVC actually have medium strength positive correlation. For these conferences, they are not affectively using recruiting for success."
+  },
+  {
+    "objectID": "data_acquisiton_blog.html#top-10-and-bottom-10",
+    "href": "data_acquisiton_blog.html#top-10-and-bottom-10",
+    "title": "Data Acquisition: A How to Use College Football APIs",
+    "section": "Top 10 and Bottom 10",
+    "text": "Top 10 and Bottom 10"
   }
 ]

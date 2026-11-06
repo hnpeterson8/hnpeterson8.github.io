@@ -37,10 +37,13 @@ if response.status_code == 200:
     recruiting_df = pd.json_normalize(response.json())
     print(recruiting_df[["team", "points", "rank"]].head())
 ```
-In the full pipeline script (available in the project repository - file `acquire_data.qmd`), this request is wrapped inside a loop over seasons 2018 through 2024, paired with a polite `time.sleep(0.5)` delay between requests. A matching loop pulls win-loss records from the `/records` endpoint. This dataset does not have a variable that has the win percentage but it can be easily calculated as `wins/games` or the number of wins divided by the number of games played. Some basic data cleaning is necessary to ensure that variable naming convention is the same across the two datasets so that merging can happen properly. To finish creating the final dataset, we use `pd.concat()` to join the datasets on `['team', 'year']`.
+In the full pipeline script (available in the project repository - file `acquire_data.qmd`), this request is wrapped inside a loop over seasons 2018 through 2024, paired with a polite `time.sleep(0.5)` delay between requests. A matching loop pulls win-loss records from the `/records` endpoint. This dataset does not have a variable that has the win percentage but it can be easily calculated as `wins/games` or the number of wins divided by the number of games played. Some basic data cleaning is necessary to ensure that variable naming convention is the same across the two datasets so that merging can happen properly. To finish creating the final dataset, we use `pd.concat()` to join the datasets on `['team', 'year']`. 
 
 
-# EDA
+# EDA: Win-Percentage vs. Recruiting Rank
+Once we have the data, we can load it into a new script where we can do exploratory data analysis. To follow along with more in-depth EDA, use the `eda.qmd` file in the referenced GitHub repository. Here we will just go through the highlights of the analysis.
+
+## Scatterplot
 ```{python}
 import pandas as pd
 import numpy as np
@@ -50,5 +53,57 @@ import matplotlib.pyplot as plt
 # load in the data
 data = pd.read_csv("data/college_football.csv")
 
-
+# plot of win pct vs recruiting rank
+fig, ax = plt.subplots()
+ax.scatter(data["win_pct"], data["recruiting_rank"], c = data["year"], alpha = 0.65)
+ax.set(xlabel="Win Percentage",
+       ylabel="Recruiting Rank", title="Win-Percentage vs. Recruiting Rank")
+plt.show()
 ``` 
+
+This graph shows the win percentage vs recruiting rank and is colored by year. It is hard to see any real differences by year. In the EDA file, I break up this graph by year to be able see differences in trends. The graph does show a slight negative correlation between the two variables. Lets explore this next. 
+
+## Correlation By Year
+```{python}
+# correlation between win percentage and recruiting rank
+# in theory we should see a negative correlation (higher rank corresponds to lower number)
+## see if there is difference by year
+year_corr = (
+    data.groupby("year")
+    .apply(
+        lambda g: g["win_pct"].corr(g["recruiting_rank"]),
+        include_groups=False,
+    )
+    .reset_index(name="corr")
+)
+# print output
+print(year_corr)
+```
+
+Based on the year by year correlations, each year sees a weak negative correlation. 2020 sees the weakest correlation but that could be due to this being the Covid year and so the seasons were shorter and structured differently than other years.
+
+## Correlation By Conference
+Correlation by year tells us generally which years had better success from recruiting, but it does not tell us the full story. What if we want to know are certain conferences better at turning recruitment into success? Below we look at the correlation between win percentage and recruiting rank based on conferences. 
+```{python}
+## look how it works within conferences
+conf_corr = (
+    data.groupby("conference")
+    .apply(
+        lambda g: g["win_pct"].corr(g["recruiting_rank"]),
+        include_groups=False,
+    )
+    .reset_index(name="corr")
+)
+
+# print output
+print(conf_corr)
+```
+
+As can be seen, conferences like the SEC, NEC (Northeast conference), FCS Independents (not technically a conference, but grouped together as one), and Big 10 have much stronger correlations of -0.5 or lower (closer to -1). These conferences are getting better results likely related to their recruiting rank, indicating that they are better at turning recruitment into success. While some conferences like AWC, Atlantic Sun, and OVC actually have medium strength positive correlation. For these conferences, they are not affectively using recruiting for success. 
+
+## Top 10 and Bottom 10 
+Finally, one might want to know how well the top and bottom 10 in recruiting ranking do in terms of win percentage. Since the ranking is done each year, we will look at the teams that are in the top 10 and bottom 10 for each of the years, respectively. For the top 10, there are 17 unique teams across the 7 years. This generally makes sense that those that would be in the top 10 are often consistently in the top 10 based on budgets. Another consideration is that this in the middle of the new NIL rules which allowed for athletes to be paid. This changed how recruiting works pretty substantially where teams were allowed to pay recruits, within school budgets, which meant that it was no longer just the top teams doing it under the table. It to some degree leveled the playing field. That is, however, the top conferences stayed the top conferences. There were only 6 unique conferences within the top 10, again pushing the idea that the top stays the top. 
+
+On the flip side we see the bottom 10. Here there are 57 unique teams and 18 unique conferences. Some of this could be due to conference realignment and whatnot but there is also the element that schools that just can't pay their athletes the same amount will have lower rankings. Thus we see more variation in the bottom 10. 
+
+# Conclusion
