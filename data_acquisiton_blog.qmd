@@ -107,3 +107,8 @@ Finally, one might want to know how well the top and bottom 10 in recruiting ran
 On the flip side we see the bottom 10. Here there are 57 unique teams and 18 unique conferences. Some of this could be due to conference realignment and whatnot but there is also the element that schools that just can't pay their athletes the same amount will have lower rankings. Thus we see more variation in the bottom 10. 
 
 # Conclusion
+In this blog, we discussed the basics for acquiring data from the [college football data API](collegefootballdata.com) and how to do answer the simple question of, is recruiting related with success, measured by win-percentage. We found that the success depends on the year and the conference for which the team plays. This is unsurprising based on historical evidence for different conferences. Some are just better than others. Whil results were not super clear, there was at least a weak correlation between recruiting rank and win percentage. 
+
+We also give the basic struture of how to use an API and some best practices. To summarize, when using an API it is best practice to never post your API key anywhere public since this is personal information and is used so a website can pick who they allow access to their site. Here we used the `requests` package in Python but depending on the type of webscraping you are doing `beautifulsoup` is another great option. 
+
+Now that you have seen an example, go the website and request your own API and give it a try! Once you have that working, you can go to other websites and requests API's and just rewrite the code to match the specific needs of that website.
