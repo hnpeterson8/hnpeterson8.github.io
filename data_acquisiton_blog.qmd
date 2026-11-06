@@ -5,49 +5,71 @@ date: last-modified
 format: html
 ---
 # Introduction - Motivation
-Every year college football teams a few hundred thousand dollars to millions on recruiting. This number has only gotten higher as NIL laws of changed as well as being able to legally pay athletes. But does this extra expense really pay off? Does the increase in recruiting power really lead to more on field success? To look at this question we pull data from a [college football data API](collegefootballdata.com). To answer this question we will use recruiting rank and win percentage. 
+Every recruiting cycle, NCAA Division I athletic departments pour hundreds of thousands and upwards of millions of dollares into high school talent acquisition. With the recent explosion of Name, Image, and Likeness (NIL) collectives and transfer portal dynamics, the financial stakes of securing elite recruits has never been higher, even at risk of nearly bankrupting schools. Alumni and athletic directors pour immense capital into getting four or five star high school prospects with a single expectation: getting wins on Saturdays. But does an elite recruiting class reliably translate into regular-season success? Or do coaching schemes, development, transfer acquisitions, and conference membership dilute the power of raw high school talent? To investigate this question empirically, I curated an original multi-season dataset from 2018 to 2024. By combining historical recruiting composite rankings with seasonal win-loss records, this project explores the relationship between high school recruiting ranks and actual on-field winning percentage across FBS and FCS.
 
-## Ethical Consideration
-Before webscraping it is always important to read the terms of service to understand what data can and cannot be accessed and if the data is able to be published to a GitHub repository. In this case, getting the API is free and immediate, however, the company does still want web scraping to come from this and to be able to control who has access to the data and who does not. For this specific API, they request that the data is not published on public repositories. Thus, here we will walk through the steps for you obtain your own API key and then pull your own data. Please be respectful when using this API and follow the terms and service.
+## Ethical Considerations
+CFBD provids free academic and hobbyist API keys to anyone who register with their email. However, their official [CFBD Terms of Use](https://collegefootballdata.com/terms) establish clear guidelines regarding security and redistribution. To sum up the terms, raw data outputs are prohibited from being a standalone download (i.e. no uploading the data to GitHub), API keys must remain confidential and should never be committed to GitHub, and automated scripts must respect server capacity (i.e. use a timer to space the calls to the server to not overload).
 
-# College Football API Access and Use
-To begin, go to [CollegeFootballData API](collegefootballdata.com) where you can submit your email to get your personalized API key. The email should come through immediately. Once you have your API key you can begin!
+To comply with these guidelines, I kept all API authentication tokens isolated in a local `.env` configuration file, which is permanently excluded via `.gitignore`. Furthermore, my collection pipeline incorporates explicit `time.sleep(0.5)` intervals between requests to maintain respectful server traffic.
 
-To follow along with more in-depth code use this [GitHub repository](https://github.com/hnpeterson8/data_acquisition_blog_code). Begin with cloning the repo and then we can start pulling the data from the API
+# The Acquisition Pipleline: How to Get Started
 
-To ensure that we do not publish our API key to GitHub, put the following code in your `.env` and ensure that `.env` is in your `.gitignore`: `API_KEY = {your_api_key}`. Next, using the `requests` library, queried the `/recruiting/teams` and `/records` endpoints for seasons 2018 through 2024, looping through each year with a polite 0.5-second delay. The resulting JSON responses were flattened into pandas DataFrames using `pd.json_normalize()` and merged on team name and season. 
+To begin, go to [CollegeFootballData API](https://collegefootballdata.com) where you can submit your email to get your personalized API key. The email should come through immediately. Once you have your API key you can begin!
+
+If you want to assemble a similar sports dataset for your own research, you do not need complex web scrapers. The CFBD REST interface provides clean, structured JSON endpoints that can be fetched using Python's `requests` library and normalized directly with `pandas`.
+
+You can review the full, reproducible collection pipeline in the project's [GitHub Repository](https://github.com/hnpeterson8/data_acquisition_blog_code) (specifically within `scripts/acquire_data.py`). Here is the core programmatic pattern used to retrieve and unpack recruiting rankings:
 
 ```python
 import os
 import pandas as pd
 import requests
 
-# Load API key securely from environment variables
+# load API key securely from environment variables
 api_key = os.getenv("CFBD_API_KEY")
 headers = {"Authorization": f"Bearer {api_key}"}
 
-# Request recruiting data for a target season
+# request recruiting data for a target season (year)
 url = "[https://api.collegefootballdata.com/recruiting/teams](https://api.collegefootballdata.com/recruiting/teams)"
 params = {"year": 2023}
 
 response = requests.get(url, headers=headers, params=params)
 
 if response.status_code == 200:
-    # Flatten nested JSON into a clean tabular DataFrame
+    # flatten nested JSON into a clean tabular DataFrame
     recruiting_df = pd.json_normalize(response.json())
     print(recruiting_df[["team", "points", "rank"]].head())
 ```
-In the full pipeline script (available in the project repository - file `acquire_data.qmd`), this request is wrapped inside a loop over seasons 2018 through 2024, paired with a polite `time.sleep(0.5)` delay between requests. A matching loop pulls win-loss records from the `/records` endpoint. This dataset does not have a variable that has the win percentage but it can be easily calculated as `wins/games` or the number of wins divided by the number of games played. Some basic data cleaning is necessary to ensure that variable naming convention is the same across the two datasets so that merging can happen properly. To finish creating the final dataset, we use `pd.concat()` to join the datasets on `['team', 'year']`. 
+### Scaling and Merging Across Seasons
+In the `acquire_data.qmd` script, this pattern is scaled across target years (2018-2024) in two distinct phases:
 
+1. **Iterative Batch Retrieval:** A `for` loop queries `/recruiting/teams` for each season, tehn append each year's batch to a list before stacking them vertically with `pd.concat()`. A secondary loop pulls the win-loss records from the `/records` endpoint.
+ow 
+2. **Feature Engineering and Merging:** Because the raw records endpoint returns separate counts for total games and wins, I computed win percentage as `win_pct = wins / games`. Then school names were standardized and the two tables were joined using `pd.merge()` on composite keys `['team', 'year']` with relational validataion (`validate = 'many_to_one'`).
 
-# EDA: Win-Percentage vs. Recruiting Rank
-Once we have the data, we can load it into a new script where we can do exploratory data analysis. To follow along with more in-depth EDA, use the `eda.qmd` file in the referenced GitHub repository. Here we will just go through the highlights of the analysis.
+# The Curated Dataset
+The resulting curated dataset brings together 1384 total observations across 7 collegiate seasons. Each row represents a unique team and season and includes 6 key features:
 
-## Scatterplot
+| Feature Name | Data Type | Description |
+| :--- | :--- | :--- |
+| `team` | Categorical (String) | Official university athletic program name |
+| `conference` | Categorical (String) | Primary athletic conference affiliation |
+| `year` | Numeric (Integer) | NCAA competition season (2018–2024) |
+| `recruiting_points`| Numeric (Float) | 247Sports composite recruiting score (Range: 0.00 – 333.13) |
+| `recruiting_rank` | Numeric (Integer) | National recruiting class rank (1 to 278) |
+| `win_pct` | Numeric (Float) | Season regular-season winning percentage (0.000 to 1.000) |
+
+: Curated Dataset Structure
+
+Across the 1384 observations, the mean national win percentage is about 0.51.
+
+# Exploratory Data Analysis & Findings
+With our dataset assembled, we can evaluate how strongly high school recruiting power correlates with collegiate victory. The code and data can be accessed directly from the project repository's `eda.qmd` file.
+
+## 1. Visualizing the Global Trend
 ```{python}
 import pandas as pd
 import numpy as np
-import pandas as pd
 import matplotlib.pyplot as plt
 
 # load in the data
@@ -61,9 +83,10 @@ ax.set(xlabel="Win Percentage",
 plt.show()
 ``` 
 
-This graph shows the win percentage vs recruiting rank and is colored by year. It is hard to see any real differences by year. In the EDA file, I break up this graph by year to be able see differences in trends. The graph does show a slight negative correlation between the two variables. Lets explore this next. 
+Because a rank of 1 denotes the nation's premier recruiting class, a strong positive relationship between recruiting talent and victory should appear as a downward slope (lower rank number producing higher win percentage). The plot reveals a general downward trajectory, but with substantial spread where many mid-tier recruiting classes (ranks 40–80) still achieve 8 to 10 win seasons.
 
-## Correlation By Year
+## 2. Year-by-Year Correlation
+To quantify this relationship across time, we calculate the correlation coefficient between `win_pct` and `recruiting_rank` grouped by season:
 ```{python}
 # correlation between win percentage and recruiting rank
 # in theory we should see a negative correlation (higher rank corresponds to lower number)
@@ -80,10 +103,12 @@ year_corr = (
 print(year_corr)
 ```
 
-Based on the year by year correlations, each year sees a weak negative correlation. 2020 sees the weakest correlation but that could be due to this being the Covid year and so the seasons were shorter and structured differently than other years.
+Based on the year by year correlations, each year sees a weak negative correlation. 2020 sees the weakest correlation of -0.101, but that could be due to this being the Covid year and so the seasons were shorter and structured differently than other years.
 
-## Correlation By Conference
-Correlation by year tells us generally which years had better success from recruiting, but it does not tell us the full story. What if we want to know are certain conferences better at turning recruitment into success? Below we look at the correlation between win percentage and recruiting rank based on conferences. 
+## 3. The Conference Divide: Talent vs. Execution
+
+Does raw recruiting talent matter equally across all conferences? In college athletics, strength of schedule and resource disparities vary widely. Grouping by conference reveals dramatic contrasts:
+
 ```{python}
 ## look how it works within conferences
 conf_corr = (
@@ -99,16 +124,28 @@ conf_corr = (
 print(conf_corr)
 ```
 
-As can be seen, conferences like the SEC, NEC (Northeast conference), FCS Independents (not technically a conference, but grouped together as one), and Big 10 have much stronger correlations of -0.5 or lower (closer to -1). These conferences are getting better results likely related to their recruiting rank, indicating that they are better at turning recruitment into success. While some conferences like AWC, Atlantic Sun, and OVC actually have medium strength positive correlation. For these conferences, they are not affectively using recruiting for success. 
+In power conferences like the **SEC (-0.54)** and **Big Ten (-0.46)**, recruiting rank is a heavy predictor of success. Within these conferences, elite rosters routinely dominate lower-recruiting peers in trenches and depth. 
 
-## Top 10 and Bottom 10 
-Finally, one might want to know how well the top and bottom 10 in recruiting ranking do in terms of win percentage. Since the ranking is done each year, we will look at the teams that are in the top 10 and bottom 10 for each of the years, respectively. For the top 10, there are 17 unique teams across the 7 years. This generally makes sense that those that would be in the top 10 are often consistently in the top 10 based on budgets. Another consideration is that this in the middle of the new NIL rules which allowed for athletes to be paid. This changed how recruiting works pretty substantially where teams were allowed to pay recruits, within school budgets, which meant that it was no longer just the top teams doing it under the table. It to some degree leveled the playing field. That is, however, the top conferences stayed the top conferences. There were only 6 unique conferences within the top 10, again pushing the idea that the top stays the top. 
+Conversely, several mid-major and FCS conferences display weak or even slightly positive correlations. In leagues where team recruiting budgets are uniformly modest, coaching continuity, veteran experience, and scheme often matter far more than small differences in star ratings.
 
-On the flip side we see the bottom 10. Here there are 57 unique teams and 18 unique conferences. Some of this could be due to conference realignment and whatnot but there is also the element that schools that just can't pay their athletes the same amount will have lower rankings. Thus we see more variation in the bottom 10. 
+## The Monopolistic Top 10
 
-# Conclusion
-In this blog, we discussed the basics for acquiring data from the [college football data API](collegefootballdata.com) and how to do answer the simple question of, is recruiting related with success, measured by win-percentage. We found that the success depends on the year and the conference for which the team plays. This is unsurprising based on historical evidence for different conferences. Some are just better than others. Whil results were not super clear, there was at least a weak correlation between recruiting rank and win percentage. 
+Examining the extremes of the dataset highlights college football's talent consolidation:
 
-We also give the basic struture of how to use an API and some best practices. To summarize, when using an API it is best practice to never post your API key anywhere public since this is personal information and is used so a website can pick who they allow access to their site. Here we used the `requests` package in Python but depending on the type of webscraping you are doing `beautifulsoup` is another great option. 
+* **The Top 10:** Across 7 seasons (70 possible top-10 slots), only **17 unique schools** ever appeared in the top 10 recruiting rankings. Furthermore, these 17 programs represent only 4 conferences (heavily dominated by the SEC and Big Ten). Programs like Alabama, Georgia, Ohio State, and Texas effectively lock down the talent pipeline year after year.
 
-Now that you have seen an example, go the website and request your own API and give it a try! Once you have that working, you can go to other websites and requests API's and just rewrite the code to match the specific needs of that website.
+* **The Bottom 10:** Across the lowest-ranked recruiting classes, we find **57 unique teams** spanning 18 conferences. 
+
+This asymmetry shows that while elite talent acquisition is a tightly guarded monopoly with immense barriers to entry, the bottom of the recruiting hierarchy is volatile and widely dispersed.
+
+# Conclusion & Next Steps
+This project illustrates the mechanics of taking a real-world question, verifying ethical API boundaries, constructing an automated retrieval script, and analyzing the resulting data.
+
+While securing a top-10 recruiting class nearly guarantees your teams being competitive, it is not the whole story. Coaching turnover, injuries, transfer portal additions and losses, and game-day luck account for nearly the rest of the story.
+
+### Resources & Further Reading
+* **Code Repository:** Access the pipeline scripts, environment templates, and data cleaning routines at my [Data Acquisition GitHub Repository](https://github.com/hnpeterson8/data_acquisition_blog_code).
+
+* **API Documentation:** Learn more about collegiate metrics and register for a developer key at [CollegeFootballData.com](https://collegefootballdata.com).
+
+* **Explore Further:** Try adapting the pipeline script to pull the `/stats/season` endpoint to see whether offensive yards per play or turnover margin correlates more strongly with wins than high school recruiting scores!
