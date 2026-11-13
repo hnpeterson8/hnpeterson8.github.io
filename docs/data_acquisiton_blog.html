@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Hailey Peterson">
-<meta name="dcterms.date" content="2026-11-06">
+<meta name="dcterms.date" content="2026-11-13">
 
-<title>Data Acquisition: A How to Use College Football APIs – Hailey Peterson</title>
+<title>Data Acquisition: How to Use College Football APIs – Hailey Peterson</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -163,7 +163,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#ethical-considerations" id="toc-ethical-considerations" class="nav-link" data-scroll-target="#ethical-considerations">Ethical Considerations</a></li>
   </ul></li>
-  <li><a href="#the-acquisition-pipleline-how-to-get-started" id="toc-the-acquisition-pipleline-how-to-get-started" class="nav-link" data-scroll-target="#the-acquisition-pipleline-how-to-get-started">The Acquisition Pipleline: How to Get Started</a>
+  <li><a href="#the-acquisition-pipeline-how-to-get-started" id="toc-the-acquisition-pipeline-how-to-get-started" class="nav-link" data-scroll-target="#the-acquisition-pipeline-how-to-get-started">The Acquisition Pipeline: How to Get Started</a>
   <ul class="collapse">
   <li><a href="#scaling-and-merging-across-seasons" id="toc-scaling-and-merging-across-seasons" class="nav-link" data-scroll-target="#scaling-and-merging-across-seasons">Scaling and Merging Across Seasons</a></li>
   </ul></li>
@@ -187,7 +187,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Data Acquisition: A How to Use College Football APIs</h1>
+<h1 class="title">Data Acquisition: How to Use College Football APIs</h1>
 </div>
 
 
@@ -204,7 +204,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 6, 2026</p>
+      <p class="date">November 13, 2026</p>
     </div>
   </div>
   
@@ -218,15 +218,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introduction---motivation" class="level1">
 <h1>Introduction - Motivation</h1>
-<p>Every recruiting cycle, NCAA Division I athletic departments pour hundreds of thousands and upwards of millions of dollares into high school talent acquisition. With the recent explosion of Name, Image, and Likeness (NIL) collectives and transfer portal dynamics, the financial stakes of securing elite recruits has never been higher, even at risk of nearly bankrupting schools. Alumni and athletic directors pour immense capital into getting four or five star high school prospects with a single expectation: getting wins on Saturdays. But does an elite recruiting class reliably translate into regular-season success? Or do coaching schemes, development, transfer acquisitions, and conference membership dilute the power of raw high school talent? To investigate this question empirically, I curated an original multi-season dataset from 2018 to 2024. By combining historical recruiting composite rankings with seasonal win-loss records, this project explores the relationship between high school recruiting ranks and actual on-field winning percentage across FBS and FCS.</p>
+<p>Every recruiting cycle, NCAA Division I athletic departments pour hundreds of thousands and upwards of millions of dollars into high school talent acquisition. With the recent explosion of Name, Image, and Likeness (NIL) collectives and transfer portal dynamics, the financial stakes of securing elite recruits have never been higher, even at the risk of nearly bankrupting schools. Alumni and athletic directors pour immense capital into getting four or five star high school prospects with a single expectation: getting wins on Saturdays. But does an elite recruiting class reliably translate into regular-season success? Or do coaching schemes, development, transfer acquisitions, and conference membership dilute the power of raw high school talent? To investigate this question empirically, I curated an original multi-season dataset from 2018 to 2024. By combining historical recruiting composite rankings with seasonal win-loss records, this project explores the relationship between high school recruiting ranks and actual on-field winning percentage across FBS and FCS.</p>
 <section id="ethical-considerations" class="level2">
 <h2 class="anchored" data-anchor-id="ethical-considerations">Ethical Considerations</h2>
-<p>CFBD provids free academic and hobbyist API keys to anyone who register with their email. However, their official <a href="https://collegefootballdata.com/terms">CFBD Terms of Use</a> establish clear guidelines regarding security and redistribution. To sum up the terms, raw data outputs are prohibited from being a standalone download (i.e.&nbsp;no uploading the data to GitHub), API keys must remain confidential and should never be committed to GitHub, and automated scripts must respect server capacity (i.e.&nbsp;use a timer to space the calls to the server to not overload).</p>
+<p>CFBD provides free academic and hobbyist API keys to anyone who registers with their email. However, their official <a href="https://collegefootballdata.com/terms">CFBD Terms of Use</a> establish clear guidelines regarding security and redistribution. To sum up the terms, raw data outputs are prohibited from being a standalone download (i.e., no uploading the data to GitHub), API keys must remain confidential and should never be committed to GitHub, and automated scripts must respect server capacity (i.e., use a timer to space the calls to the server to not overload).</p>
 <p>To comply with these guidelines, I kept all API authentication tokens isolated in a local <code>.env</code> configuration file, which is permanently excluded via <code>.gitignore</code>. Furthermore, my collection pipeline incorporates explicit <code>time.sleep(0.5)</code> intervals between requests to maintain respectful server traffic.</p>
 </section>
 </section>
-<section id="the-acquisition-pipleline-how-to-get-started" class="level1">
-<h1>The Acquisition Pipleline: How to Get Started</h1>
+<section id="the-acquisition-pipeline-how-to-get-started" class="level1">
+<h1>The Acquisition Pipeline: How to Get Started</h1>
 <p>To begin, go to <a href="https://collegefootballdata.com">CollegeFootballData API</a> where you can submit your email to get your personalized API key. The email should come through immediately. Once you have your API key you can begin!</p>
 <p>If you want to assemble a similar sports dataset for your own research, you do not need complex web scrapers. The CFBD REST interface provides clean, structured JSON endpoints that can be fetched using Python’s <code>requests</code> library and normalized directly with <code>pandas</code>.</p>
 <p>You can review the full, reproducible collection pipeline in the project’s <a href="https://github.com/hnpeterson8/data_acquisition_blog_code">GitHub Repository</a> (specifically within <code>scripts/acquire_data.py</code>). Here is the core programmatic pattern used to retrieve and unpack recruiting rankings:</p>
@@ -252,8 +252,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="scaling-and-merging-across-seasons">Scaling and Merging Across Seasons</h3>
 <p>In the <code>acquire_data.qmd</code> script, this pattern is scaled across target years (2018-2024) in two distinct phases:</p>
 <ol type="1">
-<li><strong>Iterative Batch Retrieval:</strong> A <code>for</code> loop queries <code>/recruiting/teams</code> for each season, tehn append each year’s batch to a list before stacking them vertically with <code>pd.concat()</code>. A secondary loop pulls the win-loss records from the <code>/records</code> endpoint. ow</li>
-<li><strong>Feature Engineering and Merging:</strong> Because the raw records endpoint returns separate counts for total games and wins, I computed win percentage as <code>win_pct = wins / games</code>. Then school names were standardized and the two tables were joined using <code>pd.merge()</code> on composite keys <code>['team', 'year']</code> with relational validataion (<code>validate = 'many_to_one'</code>).</li>
+<li><p><strong>Iterative Batch Retrieval:</strong> A <code>for</code> loop queries <code>/recruiting/teams</code> for each season, then append each year’s batch to a list before stacking them vertically with <code>pd.concat()</code>. A secondary loop pulls the win-loss records from the <code>/records</code> endpoint.</p></li>
+<li><p><strong>Feature Engineering and Merging:</strong> Because the raw records endpoint returns separate counts for total games and wins, I computed win percentage as <code>win_pct = wins / games</code>. Then school names were standardized and the two tables were joined using <code>pd.merge()</code> on composite keys <code>['team', 'year']</code> with relational validation (<code>validate = 'many_to_one'</code>).</p></li>
 </ol>
 </section>
 </section>
@@ -314,20 +314,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>With our dataset assembled, we can evaluate how strongly high school recruiting power correlates with collegiate victory. The code and data can be accessed directly from the project repository’s <code>eda.qmd</code> file.</p>
 <section id="visualizing-the-global-trend" class="level2">
 <h2 class="anchored" data-anchor-id="visualizing-the-global-trend">1. Visualizing the Global Trend</h2>
-<div id="f8b6bbbf" class="cell" data-execution_count="1">
+<div id="13ae90d2" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># load in the data</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">"data/college_football.csv"</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># plot of win pct vs recruiting rank</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>ax.scatter(data[<span class="st">"win_pct"</span>], data[<span class="st">"recruiting_rank"</span>], c <span class="op">=</span> data[<span class="st">"year"</span>], alpha <span class="op">=</span> <span class="fl">0.65</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Win Percentage"</span>,</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>       ylabel<span class="op">=</span><span class="st">"Recruiting Rank"</span>, title<span class="op">=</span><span class="st">"Win-Percentage vs. Recruiting Rank"</span>)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>clean_data <span class="op">=</span> data.dropna(subset<span class="op">=</span>[<span class="st">"win_pct"</span>, <span class="st">"recruiting_rank"</span>, <span class="st">"year"</span>])</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># plot of win pct vs recruiting rank</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>scatter <span class="op">=</span> ax.scatter(clean_data[<span class="st">"win_pct"</span>], </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    clean_data[<span class="st">"recruiting_rank"</span>], </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    c<span class="op">=</span>clean_data[<span class="st">"year"</span>].astype(<span class="bu">int</span>), alpha <span class="op">=</span> <span class="fl">0.65</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">"Win Percentage"</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>       ylabel<span class="op">=</span><span class="st">"Recruiting Rank"</span>, title<span class="op">=</span><span class="st">"Win-Percentage vs. Recruiting Rank"</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>legend1 <span class="op">=</span> ax.legend(<span class="op">*</span>scatter.legend_elements(), title<span class="op">=</span><span class="st">"Year"</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>ax.add_artist(legend1)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -341,7 +346,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="year-by-year-correlation" class="level2">
 <h2 class="anchored" data-anchor-id="year-by-year-correlation">2. Year-by-Year Correlation</h2>
 <p>To quantify this relationship across time, we calculate the correlation coefficient between <code>win_pct</code> and <code>recruiting_rank</code> grouped by season:</p>
-<div id="031b199f" class="cell" data-execution_count="2">
+<div id="70fc1a07" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># correlation between win percentage and recruiting rank</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># in theory we should see a negative correlation (higher rank corresponds to lower number)</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">## see if there is difference by year</span></span>
@@ -366,12 +371,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 6  2024 -0.164641</code></pre>
 </div>
 </div>
-<p>Based on the year by year correlations, each year sees a weak negative correlation. 2020 sees the weakest correlation of -0.101, but that could be due to this being the Covid year and so the seasons were shorter and structured differently than other years.</p>
+<p>Based on the year by year correlations, each year sees a weak negative correlation. This means that as the rank number increases (worse rank), the win percentage generally goes down. 2020 sees the weakest correlation of -0.101, but that could be due to this being the Covid year and so the seasons were shorter and structured differently than other years.</p>
 </section>
 <section id="the-conference-divide-talent-vs.-execution" class="level2">
 <h2 class="anchored" data-anchor-id="the-conference-divide-talent-vs.-execution">3. The Conference Divide: Talent vs.&nbsp;Execution</h2>
 <p>Does raw recruiting talent matter equally across all conferences? In college athletics, strength of schedule and resource disparities vary widely. Grouping by conference reveals dramatic contrasts:</p>
-<div id="7d0623e0" class="cell" data-execution_count="3">
+<div id="ace0d6cb" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">## look how it works within conferences</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>conf_corr <span class="op">=</span> (</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    data.groupby(<span class="st">"conference"</span>)</span>
@@ -427,8 +432,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="the-monopolistic-top-10">The Monopolistic Top 10</h2>
 <p>Examining the extremes of the dataset highlights college football’s talent consolidation:</p>
 <ul>
-<li><p><strong>The Top 10:</strong> Across 7 seasons (70 possible top-10 slots), only <strong>17 unique schools</strong> ever appeared in the top 10 recruiting rankings. Furthermore, these 17 programs represent only 4 conferences (heavily dominated by the SEC and Big Ten). Programs like Alabama, Georgia, Ohio State, and Texas effectively lock down the talent pipeline year after year.</p></li>
-<li><p><strong>The Bottom 10:</strong> Across the lowest-ranked recruiting classes, we find <strong>57 unique teams</strong> spanning 18 conferences.</p></li>
+<li><p><strong>The Top 10:</strong> Across 7 seasons (70 possible top-10 slots), only 17 unique schools ever appeared in the top 10 recruiting rankings. Furthermore, these 17 programs represent only 4 conferences (heavily dominated by the SEC and Big Ten). Programs like Alabama, Georgia, Ohio State, and Texas effectively lock down the talent pipeline year after year.</p></li>
+<li><p><strong>The Bottom 10:</strong> Across the lowest-ranked recruiting classes, we find 57 unique teams spanning 18 conferences.</p></li>
 </ul>
 <p>This asymmetry shows that while elite talent acquisition is a tightly guarded monopoly with immense barriers to entry, the bottom of the recruiting hierarchy is volatile and widely dispersed.</p>
 </section>
@@ -436,13 +441,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="conclusion-next-steps" class="level1">
 <h1>Conclusion &amp; Next Steps</h1>
 <p>This project illustrates the mechanics of taking a real-world question, verifying ethical API boundaries, constructing an automated retrieval script, and analyzing the resulting data.</p>
-<p>While securing a top-10 recruiting class nearly guarantees your teams being competitive, it is not the whole story. Coaching turnover, injuries, transfer portal additions and losses, and game-day luck account for nearly the rest of the story.</p>
+<p>While securing a top-10 recruiting class nearly guarantees your team will be competitive, it is not the whole story. Coaching turnover, injuries, transfer portal additions and losses, and game-day luck account for the rest of the story.</p>
 <section id="resources-further-reading" class="level3">
 <h3 class="anchored" data-anchor-id="resources-further-reading">Resources &amp; Further Reading</h3>
 <ul>
-<li><strong>Code Repository:</strong> Access the pipeline scripts, environment templates, and data cleaning routines at my <a href="https://github.com/hnpeterson8/data_acquisition_blog_code">Data Acquisition GitHub Repository</a>.</li>
-<li><strong>API Documentation:</strong> Learn more about collegiate metrics and register for a developer key at <a href="https://collegefootballdata.com">CollegeFootballData.com</a>.</li>
-<li><strong>Explore Further:</strong> Try adapting the pipeline script to pull the <code>/stats/season</code> endpoint to see whether offensive yards per play or turnover margin correlates more strongly with wins than high school recruiting scores!</li>
+<li><p><strong>Code Repository:</strong> Access the pipeline scripts, environment templates, and data cleaning routines at my <a href="https://github.com/hnpeterson8/data_acquisition_blog_code">Data Acquisition GitHub Repository</a>.</p></li>
+<li><p><strong>API Documentation:</strong> Learn more about collegiate metrics and register for a developer key at <a href="https://collegefootballdata.com">CollegeFootballData.com</a>.</p></li>
+<li><p><strong>Explore Further:</strong> Try adapting the pipeline script to pull the <code>/stats/season</code> endpoint to see whether offensive yards per play or turnover margin correlates more strongly with wins than high school recruiting scores!</p></li>
 </ul>
 
 

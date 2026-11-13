@@ -1,18 +1,18 @@
 ---
-title: "Data Acquisition: A How to Use College Football APIs"
+title: "Data Acquisition: How to Use College Football APIs"
 author: "Hailey Peterson"
 date: last-modified
 format: html
 ---
 # Introduction - Motivation
-Every recruiting cycle, NCAA Division I athletic departments pour hundreds of thousands and upwards of millions of dollares into high school talent acquisition. With the recent explosion of Name, Image, and Likeness (NIL) collectives and transfer portal dynamics, the financial stakes of securing elite recruits has never been higher, even at risk of nearly bankrupting schools. Alumni and athletic directors pour immense capital into getting four or five star high school prospects with a single expectation: getting wins on Saturdays. But does an elite recruiting class reliably translate into regular-season success? Or do coaching schemes, development, transfer acquisitions, and conference membership dilute the power of raw high school talent? To investigate this question empirically, I curated an original multi-season dataset from 2018 to 2024. By combining historical recruiting composite rankings with seasonal win-loss records, this project explores the relationship between high school recruiting ranks and actual on-field winning percentage across FBS and FCS.
+Every recruiting cycle, NCAA Division I athletic departments pour hundreds of thousands and upwards of millions of dollars into high school talent acquisition. With the recent explosion of Name, Image, and Likeness (NIL) collectives and transfer portal dynamics, the financial stakes of securing elite recruits have never been higher, even at the risk of nearly bankrupting schools. Alumni and athletic directors pour immense capital into getting four or five star high school prospects with a single expectation: getting wins on Saturdays. But does an elite recruiting class reliably translate into regular-season success? Or do coaching schemes, development, transfer acquisitions, and conference membership dilute the power of raw high school talent? To investigate this question empirically, I curated an original multi-season dataset from 2018 to 2024. By combining historical recruiting composite rankings with seasonal win-loss records, this project explores the relationship between high school recruiting ranks and actual on-field winning percentage across FBS and FCS.
 
 ## Ethical Considerations
-CFBD provids free academic and hobbyist API keys to anyone who register with their email. However, their official [CFBD Terms of Use](https://collegefootballdata.com/terms) establish clear guidelines regarding security and redistribution. To sum up the terms, raw data outputs are prohibited from being a standalone download (i.e. no uploading the data to GitHub), API keys must remain confidential and should never be committed to GitHub, and automated scripts must respect server capacity (i.e. use a timer to space the calls to the server to not overload).
+CFBD provides free academic and hobbyist API keys to anyone who registers with their email. However, their official [CFBD Terms of Use](https://collegefootballdata.com/terms) establish clear guidelines regarding security and redistribution. To sum up the terms, raw data outputs are prohibited from being a standalone download (i.e., no uploading the data to GitHub), API keys must remain confidential and should never be committed to GitHub, and automated scripts must respect server capacity (i.e., use a timer to space the calls to the server to not overload).
 
 To comply with these guidelines, I kept all API authentication tokens isolated in a local `.env` configuration file, which is permanently excluded via `.gitignore`. Furthermore, my collection pipeline incorporates explicit `time.sleep(0.5)` intervals between requests to maintain respectful server traffic.
 
-# The Acquisition Pipleline: How to Get Started
+# The Acquisition Pipeline: How to Get Started
 
 To begin, go to [CollegeFootballData API](https://collegefootballdata.com) where you can submit your email to get your personalized API key. The email should come through immediately. Once you have your API key you can begin!
 
@@ -43,9 +43,9 @@ if response.status_code == 200:
 ### Scaling and Merging Across Seasons
 In the `acquire_data.qmd` script, this pattern is scaled across target years (2018-2024) in two distinct phases:
 
-1. **Iterative Batch Retrieval:** A `for` loop queries `/recruiting/teams` for each season, tehn append each year's batch to a list before stacking them vertically with `pd.concat()`. A secondary loop pulls the win-loss records from the `/records` endpoint.
-ow 
-2. **Feature Engineering and Merging:** Because the raw records endpoint returns separate counts for total games and wins, I computed win percentage as `win_pct = wins / games`. Then school names were standardized and the two tables were joined using `pd.merge()` on composite keys `['team', 'year']` with relational validataion (`validate = 'many_to_one'`).
+1. **Iterative Batch Retrieval:** A `for` loop queries `/recruiting/teams` for each season, then append each year's batch to a list before stacking them vertically with `pd.concat()`. A secondary loop pulls the win-loss records from the `/records` endpoint.
+
+2. **Feature Engineering and Merging:** Because the raw records endpoint returns separate counts for total games and wins, I computed win percentage as `win_pct = wins / games`. Then school names were standardized and the two tables were joined using `pd.merge()` on composite keys `['team', 'year']` with relational validation (`validate = 'many_to_one'`).
 
 # The Curated Dataset
 The resulting curated dataset brings together 1384 total observations across 7 collegiate seasons. Each row represents a unique team and season and includes 6 key features:
@@ -74,12 +74,17 @@ import matplotlib.pyplot as plt
 
 # load in the data
 data = pd.read_csv("data/college_football.csv")
+clean_data = data.dropna(subset=["win_pct", "recruiting_rank", "year"])
 
 # plot of win pct vs recruiting rank
 fig, ax = plt.subplots()
-ax.scatter(data["win_pct"], data["recruiting_rank"], c = data["year"], alpha = 0.65)
+scatter = ax.scatter(clean_data["win_pct"], 
+    clean_data["recruiting_rank"], 
+    c=clean_data["year"].astype(int), alpha = 0.65)
 ax.set(xlabel="Win Percentage",
        ylabel="Recruiting Rank", title="Win-Percentage vs. Recruiting Rank")
+legend1 = ax.legend(*scatter.legend_elements(), title="Year")
+ax.add_artist(legend1)
 plt.show()
 ``` 
 
@@ -103,7 +108,7 @@ year_corr = (
 print(year_corr)
 ```
 
-Based on the year by year correlations, each year sees a weak negative correlation. 2020 sees the weakest correlation of -0.101, but that could be due to this being the Covid year and so the seasons were shorter and structured differently than other years.
+Based on the year by year correlations, each year sees a weak negative correlation. This means that as the rank number increases (worse rank), the win percentage generally goes down. 2020 sees the weakest correlation of -0.101, but that could be due to this being the Covid year and so the seasons were shorter and structured differently than other years.
 
 ## 3. The Conference Divide: Talent vs. Execution
 
@@ -132,16 +137,16 @@ Conversely, several mid-major and FCS conferences display weak or even slightly 
 
 Examining the extremes of the dataset highlights college football's talent consolidation:
 
-* **The Top 10:** Across 7 seasons (70 possible top-10 slots), only **17 unique schools** ever appeared in the top 10 recruiting rankings. Furthermore, these 17 programs represent only 4 conferences (heavily dominated by the SEC and Big Ten). Programs like Alabama, Georgia, Ohio State, and Texas effectively lock down the talent pipeline year after year.
+* **The Top 10:** Across 7 seasons (70 possible top-10 slots), only 17 unique schools ever appeared in the top 10 recruiting rankings. Furthermore, these 17 programs represent only 4 conferences (heavily dominated by the SEC and Big Ten). Programs like Alabama, Georgia, Ohio State, and Texas effectively lock down the talent pipeline year after year.
 
-* **The Bottom 10:** Across the lowest-ranked recruiting classes, we find **57 unique teams** spanning 18 conferences. 
+* **The Bottom 10:** Across the lowest-ranked recruiting classes, we find 57 unique teams spanning 18 conferences. 
 
 This asymmetry shows that while elite talent acquisition is a tightly guarded monopoly with immense barriers to entry, the bottom of the recruiting hierarchy is volatile and widely dispersed.
 
 # Conclusion & Next Steps
 This project illustrates the mechanics of taking a real-world question, verifying ethical API boundaries, constructing an automated retrieval script, and analyzing the resulting data.
 
-While securing a top-10 recruiting class nearly guarantees your teams being competitive, it is not the whole story. Coaching turnover, injuries, transfer portal additions and losses, and game-day luck account for nearly the rest of the story.
+While securing a top-10 recruiting class nearly guarantees your team will be competitive, it is not the whole story. Coaching turnover, injuries, transfer portal additions and losses, and game-day luck account for the rest of the story.
 
 ### Resources & Further Reading
 * **Code Repository:** Access the pipeline scripts, environment templates, and data cleaning routines at my [Data Acquisition GitHub Repository](https://github.com/hnpeterson8/data_acquisition_blog_code).
