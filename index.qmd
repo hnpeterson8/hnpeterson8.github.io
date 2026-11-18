@@ -6,3 +6,4 @@ Welcome to my website!
 
 - Read my [Tutorial Blog page](tutorial_blog.qmd)
 - Read my [Data Acquisition Blog](data_acquisiton_blog.qmd)
+- Read my [Book Blog](book_blog.qmd)

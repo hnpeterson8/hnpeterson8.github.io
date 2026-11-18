@@ -1,0 +1,20 @@
+---
+title: "A Reflection on Weapons of Math Desctruction"
+author: "Hailey Peterson"
+date: last-modified
+format: html
+---
+# Brief Summary
+*Weapons of Math Destruction* by Cathy O'Neil describes various different models that exist in the world today that are built on predujices and other harmful bases which cause harm to many. Often times these models do not have harm as an intended consequence but things like racial or socioeconomic biases can find their way into the model through things like proxy variables. Another one that often comes up are feedback loops. These are where the results of a poorly written model inform the model which creates feedback loops. Her main points throughout the book revolve around what she defines as the three elements of a WMD which are opacity, scale, and damage.
+
+
+MAKE SURE I ANSWER THESE QUESTIONS:
+- What were the most important ideas or insights you learned from the book?
+    - Model transparency is crucial to bring forth, when possible, to ensure that those affected by the model understand at least to some degree why they were impacted the way that they were. Good example is how we can get credit reports that detail why our score is what it is so we can improve it (good job FICO). 
+    - Being aware of what data is actually being used whether directly or indirectly through proxy variables (i.e. race and socioeconomic factors being detected from zip code). 
+    - Thinking about implications of model and how updating the model and keeping things up to date can help but also harm certain people. Being aware of feedback loops and how to prevent against these.
+- What do these ideas help us understand about data science and responsible professional practice?
+    - 
+- What specific practices, questions, or changes do you want to carry forward in your own work or life?
+    - Working towards creating model transparency, obviously within the bounds of what is necessary for protection for a company and other security factors. By also requesting personalized information about things like my credit score and encouraging others to do so as well can help show the need and want that people have to be able to be impacted by models and know why.
+- What ideas did you question, disagree with, or find incomplete, and why?
