@@ -14,7 +14,11 @@ MAKE SURE I ANSWER THESE QUESTIONS:
     - Being aware of what data is actually being used whether directly or indirectly through proxy variables (i.e. race and socioeconomic factors being detected from zip code). 
     - Thinking about implications of model and how updating the model and keeping things up to date can help but also harm certain people. Being aware of feedback loops and how to prevent against these.
 - What do these ideas help us understand about data science and responsible professional practice?
-    - 
+    - Model transparency: good practice as much as possible to ensure trust and openness with users/clients
+    - Being aware of how the model works and what variables are truly being captured is good to ensure laws/regulations are not broken, we are protecting minorities or discriminated groups, etc.
+    - Thinking through implications, scope, and harm is good to ensure that the values of the company are being upheld and we are not violating code of conducts or other regulations. It also keeps trust and respect of those involved which helps a business.
 - What specific practices, questions, or changes do you want to carry forward in your own work or life?
     - Working towards creating model transparency, obviously within the bounds of what is necessary for protection for a company and other security factors. By also requesting personalized information about things like my credit score and encouraging others to do so as well can help show the need and want that people have to be able to be impacted by models and know why.
+    - Being aware of exactly what the model is doing, how much it can predict beyond what was intended, ensuring feedback loops remain ethical and try and avoid them from having too much influence.
 - What ideas did you question, disagree with, or find incomplete, and why?
+    - 
